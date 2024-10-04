@@ -1,11 +1,7 @@
 # :pushpin: Milestone 1 :pushpin:
 
 ## :book: NutriNube :book:  
-> Version 0.1
-
-<p align="center">
-  <img src="/images/nutrinube_logo.jpg" alt="NutriNube Logo" width="300" height="300">
-</p>
+> Version 0.0.1
 
 ---
 
@@ -36,7 +32,7 @@ The application will have a simple, user-friendly interface to ensure accessibil
     - A new repository, `CC-24-25_NutriNube`, was created on GitHub and initialized with a README file.
 
 3. **README.md**
-    - The README file includes the problem description and key documentation links.
+    - The [README file](/README.md) includes the problem description and key documentation links.
 
 4. **License Selection**
     - The [GNU General Public License](/LICENSE) was selected to ensure the software can be used, modified, and distributed freely.
