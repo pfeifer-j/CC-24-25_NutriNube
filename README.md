@@ -16,4 +16,4 @@ Users will be able to:
 - Track physical activities and calculate calories burned based on various exercises.
 - Set personalized health and fitness goals, allowing the app to provide tailored recommendations and feedback.
 
-Using the following link you can access the [Milestone 1](/documentation/milestones/milestone1/milestone1.md) where the project logic is explained.
+Using the following link you can access the [Milestone 1](/documentation/milestone1/milestone1.md) where the project logic is explained.
