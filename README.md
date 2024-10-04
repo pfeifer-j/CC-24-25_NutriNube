@@ -15,3 +15,5 @@ Users will be able to:
 - Log their daily food consumption, with options to input the name of the food item, calorie count, and macro breakdown.
 - Track physical activities and calculate calories burned based on various exercises.
 - Set personalized health and fitness goals, allowing the app to provide tailored recommendations and feedback.
+
+Using the following link you can access the [Milestone 1](docs/milestones/milestone0/milestone0.md) where the project logic is explained.
