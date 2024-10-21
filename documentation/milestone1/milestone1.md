@@ -25,7 +25,7 @@ Project Environment
 ## 1. Environment Setup for Ubuntu
 
 1.1 Install Git
-Ensure that Git is installed on your Ubuntu system by running the following command in your terminal:
+Ensure that Git is installed on your system (Ubuntu in my case) by running the following command in your terminal:
 
 bash
 sudo apt install git
@@ -36,7 +36,9 @@ To securely communicate with GitHub, create an SSH key pair by executing the fol
 
 bash
 ssh-keygen -t ed25519 -C "pfeiferj@silbador.de"
+
 eval "$(ssh-agent -s)"
+
 ssh-add ~/.ssh/id_ed25519
 
 
@@ -52,7 +54,7 @@ cat ~/.ssh/id_ed25519.pub
 - Click New SSH key, paste the copied key, and give it a title for easy identification.
 
 - <p align="center">
-  <img src="/images/ssh.png" alt="SSH Configuration">
+  <img src="/images/ssh.jpg" alt="SSH Configuration">
 </p>
 
 1.4 Configure User Information
@@ -67,12 +69,12 @@ git config --global user.email "pfeiferj@silbador.de"
 To enhance the security of your GitHub account, enable Two-Factor Authentication (2FA) by following these steps:
 
 - Log into your GitHub account.
-- Go to Settings > Security > Two-factor authentication.
-- Follow the prompts to set up 2FA using an authentication app.
-- Confirm the setup by entering the code provided by your 2FA method.
+- Go to Settings > Password and authentication > Two-factor authentication.
+- Select a 2FA method of your choice. In my case i already have configured 2FA by Passkey.
+- If not already configured, add a new passkey on a device of yours. 
 
 - <p align="center">
-  <img src="/images/2fa" alt="2-Factor-Authentification">
+  <img src="/images/2fa.jpg" alt="2-Factor-Authentification">
 </p>
 
 ## 2. Repository Creation
