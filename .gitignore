@@ -1,3 +1,11 @@
+# My own addition
+
+documentation\general_documentation.md
+general_documentation.md
+documentation\general_notes.md
+general_notes.md
+
+# Python template
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
