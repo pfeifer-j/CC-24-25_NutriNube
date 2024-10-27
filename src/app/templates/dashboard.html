@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NutriNube - Food & Fitness Tracker</title>
+    <link rel="stylesheet" href="/static/styles.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+
+<body>
+    <script src="/static/app.js"></script>
+    
+    <header>
+        <h1>NutriNube - Your Dashboard</h1>
+        <nav>
+            <div class="nav-container">
+                <ul class="nav-links">
+                    <li><a href="/dashboard">Dashboard</a></li>
+                    <li><a href="/goals">Goals</a></li>
+                    <li><a href="/foods">Foods</a></li>
+                    <li><a href="/activities">Activities</a></li>
+                    <li><a href="/summary">Summary</a></li>
+                </ul>
+
+                <input type="date" id="date-picker">
+
+                <form id="logout-form" method="post">
+                    <button type="submit" id="logout-button">Logout</button>
+                </form>
+            </div>
+        </nav>
+    </header>
+    
+    <div class="container">
+        <!-- Calorie Goal Section -->
+        <section>
+            <h2>Nutrition Goals</h2>
+            <form id="goal-form" method="post">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Type</th>
+                            <th>Current Goal</th>
+                            <th>Update Goal</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Calories</td>
+                            <td><span id="calories-goal-text">2000</span></td>
+                            <td><input type="number" id="calorie_goal" placeholder="Update calorie goal" required></td>
+                        </tr>
+                        <tr>
+                            <td>Protein</td>
+                            <td><span id="protein-goal-text">150</span></td>
+                            <td><input type="number" id="protein_goal" placeholder="Update protein goal" required></td>
+                        </tr>
+                        <tr>
+                            <td>Fat</td>
+                            <td><span id="fat-goal-text">70</span></td>
+                            <td><input type="number" id="fat_goal" placeholder="Update fat goal" required></td>
+                        </tr>
+                        <tr>
+                            <td>Carbs</td>
+                            <td><span id="carbs-goal-text">250</span></td>
+                            <td><input type="number" id="carbs_goal" placeholder="Update carbs goal" required></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <button type="submit">Update Goals</button>
+            </form>
+        </section>
+
+        <!-- Food Consumption Section -->
+        <section>
+            <h2>Food Consumption</h2>
+            <form id="food-form" method="post">
+                <input type="text" id="food" placeholder="Food Item" required>
+                <input type="number" id="calories_consumed" placeholder="Calories" required>
+                <input type="number" id="protein_consumed" placeholder="Protein (g)" required>
+                <input type="number" id="fat_consumed" placeholder="Fat (g)" required>
+                <input type="number" id="carbs_consumed" placeholder="Carbs (g)" required>
+                <button type="submit">Add Food</button>
+            </form>
+
+            <!-- Food Log Table -->
+            <table id="food-list">
+                <thead>
+                    <tr>
+                        <th>Food</th>
+                        <th>Calories</th>
+                        <th>Protein</th>
+                        <th>Fat</th>
+                        <th>Carbs</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Fitness Activities Section -->
+        <section>
+            <h2>Fitness Activities</h2>
+            <form id="fitness-form" method="post"> 
+                <input type="text" id="exercise" placeholder="Exercise" required>
+                <input type="number" id="kcal_burned" placeholder="Calories Burned" required>
+                <button type="submit">Add Exercise</button>
+            </form>
+
+            <!-- Fitness Log Table -->
+            <table id="fitness-list">
+                <thead>
+                    <tr>
+                        <th>Exercise</th>
+                        <th>Calories Burned</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Summary Section -->
+        <section>
+            <h2>Summary</h2>
+            <p>Calories Consumed: <span id="total-calories-consumed">0</span></p>
+            <p>Protein Consumed: <span id="total-protein-consumed">0</span> grams</p>
+            <p>Fat Consumed: <span id="total-fat-consumed">0</span> grams</p>
+            <p>Carbs Consumed: <span id="total-carbs-consumed">0</span> grams</p>
+            <p>Calories Burned: <span id="total-calories-burned">0</span></p>
+            <p>Net Calories: <span id="net-calories">0</span></p>
+            <p>Calories Remaining: <span id="calories-remaining">2000</span></p>
+        </section>
+    </div>
+    <div id="toast-container"></div>
+</body>
+</html>

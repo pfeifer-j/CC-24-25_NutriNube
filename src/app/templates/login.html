@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - NutriNube</title>
+    <link rel="stylesheet" href="/static/styles.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <header>
+        <h1>NutriNube - Your Dashboard</h1>
+    </header>
+
+    <div class="container">
+        <section id="login">
+            <h2>Log In:</h2>
+            <form action="/login" method="post" id="login-form">
+                <label for="login-username">Username:</label>
+                <input type="text" id="login-username" name="username" placeholder="Enter your username..." required>
+                <label for="login-password">Password:</label>
+                <input type="password" id="login-password" name="password" placeholder="Enter your password..." required>
+                <button type="submit">Log In</button>
+            </form>
+        </section>
+
+        <section id="register">
+            <h2>Registration:</h2>
+            <form id="register-form">
+                <label for="register-username">Username:</label>
+                <input type="text" id="register-username" name="username" placeholder="Choose a username..." required>
+                <label for="register-password">Password:</label>
+                <input type="password" id="register-password" name="password" placeholder="Choose a password..." required>
+                <button type="submit">Register</button>
+            </form>
+        </section>
+    </div>
+    <div id="toast-container"></div>
+
+    <script src="/static/app.js"></script>
+</body>
+</html>

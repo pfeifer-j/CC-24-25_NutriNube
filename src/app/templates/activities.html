@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NutriNube - Food & Fitness Tracker</title>
+    <link rel="stylesheet" href="/static/styles.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+
+<body>
+    <script src="/static/app.js"></script>
+    
+    <header>
+        <h1>NutriNube - Your Activity-Tracker</h1>
+        <nav>
+            <div class="nav-container">
+                <ul class="nav-links">
+                    <li><a href="/dashboard">Dashboard</a></li>
+                    <li><a href="/goals">Goals</a></li>
+                    <li><a href="/foods">Foods</a></li>
+                    <li><a href="/activities">Activities</a></li>
+                    <li><a href="/summary">Summary</a></li>
+                </ul>
+
+                <input type="date" id="date-picker">
+
+                <form id="logout-form" method="post">
+                    <button type="submit" id="logout-button">Logout</button>
+                </form>
+            </div>
+        </nav>
+    </header>
+    
+    <div class="container">
+        <!-- Fitness Activities Section -->
+        <section>
+            <h2>Fitness Activities</h2>
+            <form id="fitness-form" method="post"> 
+                <input type="text" id="exercise" placeholder="Exercise" required>
+                <input type="number" id="kcal_burned" placeholder="Calories Burned" required>
+                <button type="submit">Add Exercise</button>
+            </form>
+
+            <!-- Fitness Log Table -->
+            <table id="fitness-list">
+                <thead>
+                    <tr>
+                        <th>Exercise</th>
+                        <th>Calories Burned</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </section>
+    </div>
+    <div id="toast-container"></div>
+</body>
+</html>

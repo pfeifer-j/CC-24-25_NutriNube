@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NutriNube - Food & Fitness Tracker</title>
+    <link rel="stylesheet" href="/static/styles.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+
+<body>
+    <script src="/static/app.js"></script>
+    
+    <header>
+        <h1>NutriNube - Your Summary</h1>
+        <nav>
+            <div class="nav-container">
+                <ul class="nav-links">
+                    <li><a href="/dashboard">Dashboard</a></li>
+                    <li><a href="/goals">Goals</a></li>
+                    <li><a href="/foods">Foods</a></li>
+                    <li><a href="/activities">Activities</a></li>
+                    <li><a href="/summary">Summary</a></li>
+                </ul>
+
+                <input type="date" id="date-picker">
+
+                <form id="logout-form" method="post">
+                    <button type="submit" id="logout-button">Logout</button>
+                </form>
+            </div>
+        </nav>
+    </header>
+    
+    <div class="container">
+        <!-- Summary Section -->
+        <section>
+            <h2>Summary</h2>
+            <p>Calories Consumed: <span id="total-calories-consumed">0</span></p>
+            <p>Protein Consumed: <span id="total-protein-consumed">0</span> grams</p>
+            <p>Fat Consumed: <span id="total-fat-consumed">0</span> grams</p>
+            <p>Carbs Consumed: <span id="total-carbs-consumed">0</span> grams</p>
+            <p>Calories Burned: <span id="total-calories-burned">0</span></p>
+            <p>Net Calories: <span id="net-calories">0</span></p>
+            <p>Calories Remaining: <span id="calories-remaining">2000</span></p>
+        </section>
+    </div>
+    <div id="toast-container"></div>
+</body>
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NutriNube - Food & Fitness Tracker</title>
+    <link rel="stylesheet" href="/static/styles.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+
+<body>
+    <script src="/static/app.js"></script>
+    
+    <header>
+        <h1>NutriNube - Your Goals</h1>
+        <nav>
+            <div class="nav-container">
+                <ul class="nav-links">
+                    <li><a href="/dashboard">Dashboard</a></li>
+                    <li><a href="/goals">Goals</a></li>
+                    <li><a href="/foods">Foods</a></li>
+                    <li><a href="/activities">Activities</a></li>
+                    <li><a href="/summary">Summary</a></li>
+                </ul>
+
+                <input type="date" id="date-picker">
+
+                <form id="logout-form" method="post">
+                    <button type="submit" id="logout-button">Logout</button>
+                </form>
+            </div>
+        </nav>
+    </header>
+    
+    <div class="container">
+        <!-- Calorie Goal Section -->
+        <section>
+            <h2>Nutrition Goals</h2>
+            <form id="goal-form" method="post">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Type</th>
+                            <th>Current Goal</th>
+                            <th>Update Goal</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Calories</td>
+                            <td><span id="calories-goal-text">2000</span></td>
+                            <td><input type="number" id="calorie_goal" placeholder="Update calorie goal" required></td>
+                        </tr>
+                        <tr>
+                            <td>Protein</td>
+                            <td><span id="protein-goal-text">150</span></td>
+                            <td><input type="number" id="protein_goal" placeholder="Update protein goal" required></td>
+                        </tr>
+                        <tr>
+                            <td>Fat</td>
+                            <td><span id="fat-goal-text">70</span></td>
+                            <td><input type="number" id="fat_goal" placeholder="Update fat goal" required></td>
+                        </tr>
+                        <tr>
+                            <td>Carbs</td>
+                            <td><span id="carbs-goal-text">250</span></td>
+                            <td><input type="number" id="carbs_goal" placeholder="Update carbs goal" required></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <button type="submit">Update Goals</button>
+            </form>
+        </section>
+    </div>
+    <div id="toast-container"></div>
+</body>
+</html>
