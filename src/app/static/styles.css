@@ -1,0 +1,317 @@
+/* Base styles for the page */
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    line-height: 1.6;
+    overflow-x: hidden;
+    font-family: 'Roboto', Arial, sans-serif;
+}
+
+/* Header section styling */
+header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 15px 10px;
+    background-color: #4CAF50;
+    color: white;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    /* position: sticky;
+    top: 0;
+    z-index: 1000; */
+}
+
+/* Header title */
+header h1 {
+    margin: 0;
+    font-size: 1.5rem;
+    text-align: center;
+}
+
+/* Common styles for inputs, buttons, and links */
+input, button, .nav-links a {
+    margin: 5px;
+    padding: 8px 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+    outline: none;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+/* Button and link specific styling */
+button, .nav-links a {
+    background-color: #4CAF50;
+    color: white;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+}
+
+button:hover, .nav-links a:hover {
+    background-color: #45a049;
+}
+
+/* Specific styling for the logout button */
+#logout-button {
+    background-color: #ff6b6b;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+#logout-button:hover {
+    background-color: #ff4c4c;
+    transform: translateY(-2px);
+}
+
+#logout-button:active {
+    background-color: #ff3030;
+    transform: translateY(0);
+}
+
+/* Navigation styling */
+nav {
+    margin-top: 15px;
+    width: 100%;
+}
+
+/* Container for nav links and logout button */
+.nav-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+/* Container for nav links */
+.nav-links {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    gap: 15px;
+    margin: 0;
+}
+
+.nav-links li {
+    display: inline;
+}
+
+/* Container for the main content */
+.container {
+    max-width: 800px;
+    margin: 15px auto;
+    padding: 15px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Sections within the container */
+section {
+    margin: 15px 0;
+}
+
+h2 {
+    color: #4CAF50;
+    margin-bottom: 10px;
+}
+
+/* Form styling */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+form input {
+    font-size: 1rem;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+form button {
+    font-size: 1rem;
+    padding: 12px;
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+form button:hover {
+    background-color: #45a049;
+    transform: translateY(-1px);
+}
+
+/* Chart and canvas styling */
+.chart-container {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 15px;
+    flex-wrap: wrap;
+}
+
+canvas {
+    max-width: 280px;
+    max-height: 280px;
+}
+
+/* Responsive styling */
+@media (max-width: 768px) {
+    .container {
+        width: 90%;
+        padding: 10px;
+    }
+
+    header {
+        padding: 10px;
+    }
+
+    header h1 {
+        font-size: 1.3rem;
+    }
+
+    .nav-container {
+        flex-direction: column;
+    }
+
+    canvas {
+        max-width: 100%;
+        height: auto;
+    }
+}
+
+@media (max-width: 600px) {
+    header {
+        padding: 8px;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
+    header h1 {
+        font-size: 1.1rem;
+    }
+}
+
+/* Styling to remove spinner from number inputs in Firefox and Chrome */
+input[type="number"] {
+    -moz-appearance: textfield;
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Toast notification container */
+#toast-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+}
+
+/* Toast message styling */
+.toast {
+    background-color: #333;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    opacity: 0;
+    transition: opacity 0.5s;
+    position: relative;
+    min-width: 200px;
+}
+
+.toast.show {
+    opacity: 1;
+}
+
+.toast.hide {
+    opacity: 0;
+}
+
+/* Table styling */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 15px 0;
+    font-size: 1rem;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+table thead th {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px;
+    text-align: left;
+    border-bottom: 2px solid #aaa;
+}
+
+table tbody tr {
+    border-bottom: 1px solid #ddd;
+    transition: background-color 0.3s ease;
+}
+
+table tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+table tbody tr:hover {
+    background-color: #f1f1f1;
+}
+
+table td {
+    padding: 10px;
+    vertical-align: top;
+}
+
+/* Updated Goal display list styling */
+#goals-display-list {
+    list-style: none;
+    padding: 0;
+    margin: 15px 0;
+    background: linear-gradient(120deg, #f9f9f9, #e6f7e6);
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+#goals-display-list li {
+    display: grid;
+    grid-template-columns: 150px auto;
+    padding: 15px;
+    font-size: 1rem;
+    color: #333;
+    border-bottom: 1px solid #ddd;
+    align-items: center;
+    transition: background-color 0.3s, transform 0.2s;
+    text-align: center;
+}
+
+#goals-display-list li:last-child {
+    border-bottom: none;
+}
+
+#goals-display-list li:hover {
+    background-color: #e0f7e6;
+    transform: translateY(-2px);
+}
+
+#goals-display-list .label {
+    font-weight: bold;
+    color: #4CAF50;
+}
+
+#goals-display-list span {
+    text-align: left;
+    font-size: 0.9rem;
+    color: #555;
+}
