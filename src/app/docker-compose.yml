@@ -1,0 +1,26 @@
+services:
+  nutri_nube:
+    build: .
+    container_name: nutri_nube
+    ports:
+      - "5000:5000"
+    volumes:
+      - .:/app
+    depends_on:
+      - db
+    environment:
+      - DATABASE_URL=postgresql://pfeiferj:NutriNube@db:5432/flaskdb
+    command: flask run --host=0.0.0.0
+
+  db:
+    image: postgres:13
+    container_name: nutri_nube_db
+    environment:
+      POSTGRES_USER: pfeiferj
+      POSTGRES_PASSWORD: NutriNube
+      POSTGRES_DB: flaskdb
+    volumes:
+      - nutri_nube_db:/var/lib/postgresql/data
+
+volumes:
+  nutri_nube_db:
