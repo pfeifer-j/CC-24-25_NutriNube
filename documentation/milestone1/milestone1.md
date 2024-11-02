@@ -5,11 +5,11 @@ Version 0.0.1
 
 ---
 
-Project Description
+### Project Description
 
 Many people struggle to maintain a healthy lifestyle due to poor dietary choices and a lack of physical activity. This often leads to various health issues, such as obesity, heart disease, and diabetes. One major challenge is tracking nutritional intake and calories burned, which can hinder progress towards better health.
 
-#Possible Solution
+### Possible Solution
 
 The proposed solution is to develop a health tracker application that helps individuals monitor their food intake and physical activities. Key features will include:
 
@@ -27,27 +27,27 @@ Project Environment
 1.1 Install Git
 Ensure that Git is installed on your system (Ubuntu in my case) by running the following command in your terminal:
 
-bash
+```bash
 sudo apt install git
-
+```
 
 1.2 Create SSH Key Pair
 To securely communicate with GitHub, create an SSH key pair by executing the following commands:
 
-bash
+```bash
 ssh-keygen -t ed25519 -C "pfeiferj@silbador.de"
 
 eval "$(ssh-agent -s)"
 
 ssh-add ~/.ssh/id_ed25519
-
+```
 
 1.3 Upload SSH Key to GitHub
 Copy the SSH public key to your clipboard with the following command:
 
-bash
+```bash
 cat ~/.ssh/id_ed25519.pub
-
+```
 
 - Log into your GitHub account.
 - Navigate to Settings > SSH and GPG keys.
@@ -60,10 +60,10 @@ cat ~/.ssh/id_ed25519.pub
 1.4 Configure User Information
 Set your Git configuration with your name and email by running the following commands:
 
-bash
+```bash
 git config --global user.name "Jan Pfeifer"
 git config --global user.email "pfeiferj@silbador.de"
-
+```
 
 1.5 Enable Two-Factor Authentication
 To enhance the security of your GitHub account, enable Two-Factor Authentication (2FA) by following these steps:
