@@ -76,7 +76,7 @@ def test_addition():
 
 ---
 
-First, I got the testing environment to run with this simple test, which always returns `True`. Later, I implemented the actual tests.
+First, I got the testing environment to run with this simple test, which always returns `True`. Later, I implemented [the actual tests](/src/tests).
 
 ## 2. Continuous Integration with GitHub Actions
 
@@ -202,7 +202,7 @@ I chose PostgreSQL because I already have experience working with it. It's quite
 
    
 ```yaml
-   version: '3.8'
+   version: '3.12'
 
    services:
      app:
@@ -227,20 +227,7 @@ I chose PostgreSQL because I already have experience working with it. It's quite
 
    volumes:
      db_data:
- ```  
-
-
-   Later I changed this to not use passwords in plain text but to store them in GitHub secrets.
-
-#### Here is how to add Passwords to GitHub Secrets:
-
-1. Go to your GitHub repository's settings.
-2. Navigate to "Secrets and variables" > "Actions".
-3. Add secrets. Example: `POSTGRES_USER`, `POSTGRES_PASSWORD`.
-
-<p align="center">
-  <img src="/images/github_secrets.png" alt="GitHub Secrets">
-</p>
+ ```
 
 2. Update [__init__.py](/src/app/__init__.py) and [app.py](/src/app/app.py)` for Database:
 
@@ -314,23 +301,27 @@ In the following milestones, I will explain how I set up the working application
 </p>
 
 ## 6. Preview of the Frontend
-
+#### Registration and Login:
 <p align="center">
   <img src="/images/frontend_login.png" alt="Registration and Login">
 </p>
 
+#### Adding a Goal:
 <p align="center">
   <img src="/images/frontend_goal.png" alt="Adding a goal">
 </p>
 
+#### Adding a Food:
 <p align="center">
   <img src="/images/frontend_food.png" alt="Adding a food">
 </p>
 
+Adding an Activity:
 <p align="center">
   <img src="/images/frontend_activity.png" alt="Adding an activity">
 </p>
 
+#### Reviewing the Summary:
 <p align="center">
   <img src="/images/frontend_summary.png" alt="Summary">
 </p>
