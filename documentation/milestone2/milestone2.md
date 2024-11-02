@@ -15,7 +15,7 @@ In this milestone, I focused on implementing continuous integration (CI) and dep
 
 1.1 Why Choose `tox`?
 
-- `tox` offers an easy setup for automated testing through the `tox.ini` file. It integrates well with GitHub Actions to execute tests seamlessly.
+- `tox` offers an easy setup for automated testing through the [tox.ini](/tox.ini) file. It integrates well with GitHub Actions to execute tests seamlessly.
 - One of `tox`'s strengths is its ability to automatically create and manage virtual environments. This is especially useful for testing across different environments and Python versions.
 
 1.2 Setting Up `tox`
@@ -25,15 +25,14 @@ To implement `tox` in the project:
 1. Install `tox`:  
 
    
-bash
+```bash
    pip install tox
-   
+```
 
 
-2. Create `tox.ini` File:  
+2. Create [tox.ini](/tox.ini) File:  
 
-   
-ini
+```ini
    [tox]
    envlist = py312
 
@@ -49,14 +48,15 @@ ini
        PYTHONPATH = {toxinidir}/src
        FLASK_ENV = testing
    commands = pytest {toxinidir}/src/tests
+```
+
+
+3. Running tests with `tox` is straightforward. Execute the following while in the same directory as the [tox.ini](/tox.ini) file:
+
    
-
-
-3. Running tests with `tox` is straightforward. Execute the following while in the same directory as the `tox.ini` file:
-
-   
-bash
+```bash
    tox
+```
    
 
 
@@ -69,10 +69,10 @@ bash
 
 Example of a simple test:
 
-python
+```python
 def test_addition():
     assert 1 + 1 == 2
-
+```
 
 ---
 
@@ -81,15 +81,14 @@ First, I got the testing environment to run with this simple test, which always 
 ## 2. Continuous Integration with GitHub Actions
 
 2.1 Setting Up CI Workflow
-
-# Why Choose `GitHub CI`?
+#### Why Choose `GitHub CI`?
 
 - Since we host our project on GitHub, it's the easiest way to integrate CI for our purpose.
 
-1. Create a Workflow File: Develop `.github/workflows/ci.yml` to define automated CI workflows:
+1. Create a Workflow File: Develop [.github/workflows/ci.yml](/.github/workflows/ci.yml) to define automated CI workflows:
 
    
-yaml
+```yaml
    name: CI
 
    on:
@@ -120,7 +119,7 @@ yaml
 
        - name: Run tests
          run: tox
-   
+   ```
 
 
    It's important to correctly define all dependencies, versions, and `tox` as the test environment.
@@ -139,10 +138,10 @@ yaml
 
 Firstly, I got the environment up and running. I significantly changed the actual code afterward.
 
-1. Create `app.py`:
+1. Create [app.py](/src/app/app.py):
 
    
-python
+```python
    from flask import Flask
 
    app = Flask(__name__)
@@ -153,38 +152,38 @@ python
 
    if __name__ == '__main__':
        app.run(host='0.0.0.0', port=5000)
+ ```  
+
+
+2. Generate [requirements.txt](/src/app/requirements.txt):
+
    
-
-
-2. Generate `requirements.txt`:
-
-   
-
+```
    Flask
+``` 
+
+
+3. Construct a [Dockerfile](/src/app/Dockerfile):
+
    
-
-
-3. Construct a `Dockerfile`:
-
-   
-dockerfile
+```dockerfile
    FROM python:3.12-slim
    WORKDIR /app
    COPY . /app
    RUN pip install --no-cache-dir -r requirements.txt
    EXPOSE 5000
    CMD ["python", "app.py"]
-   
+ ```  
 
 
 4. Build & Test Docker Image:
 
    
-bash
+```bash
    docker build -t pfeifer-j/flask-api .
    docker tag pfeifer-j/flask-api:latest
    docker push pfeifer-j/flask-api:latest
-   
+```   
 
 
 5. Check if the application is running:
@@ -199,10 +198,10 @@ bash
 
 I chose PostgreSQL because I already have experience working with it. It's quite easy to use and robust.
 
-1. Set Up `docker-compose.yml`:
+1. Set Up [docker-compose.yml](/src/app/docker-compose.yml):
 
    
-yaml
+```yaml
    version: '3.8'
 
    services:
@@ -228,12 +227,12 @@ yaml
 
    volumes:
      db_data:
-   
+ ```  
 
 
    I, of course, did not use passwords in plain text but stored them in GitHub secrets.
 
-# Here is how to add Passwords to GitHub Secrets
+#### Here is how to add Passwords to GitHub Secrets:
 
 1. Go to your GitHub repository's settings.
 2. Navigate to "Secrets and variables" > "Actions".
@@ -243,12 +242,10 @@ yaml
   <img src="/images/github_secrets.png" alt="GitHub Secrets">
 </p>
 
-2. Update `__init__.py` and `app.py` for Database:
+2. Update [__init__.py](/src/app/__init__.py) and [app.py](/src/app/app.py)` for Database:
 
+``` python
    # app/__init__.py
-
-   
-python
    from flask import Flask
    from flask_sqlalchemy import SQLAlchemy
    from flask_cors import CORS
@@ -275,27 +272,26 @@ python
 
        return app
    
+```
+And also:
 
-
+```python
    # app/app.py
-
-   
-python
    from app import create_app
 
    app = create_app()
 
    if __name__ == '__main__':
        app.run(debug=True)
+```   
+
+
+3. After updating my [requirements.txt](/src/app/requirements.txt), I ran the Docker Compose:
+
    
-
-
-3. After updating my `requirements.txt`, I ran the Docker Compose:
-
-   
-bash
+```bash
    docker-compose up --build
-   
+ ```  
 
 
 4. Test the application's interaction with the PostgreSQL database to ensure data persistence and API endpoints' efficiency.
