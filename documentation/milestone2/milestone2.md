@@ -230,7 +230,7 @@ I chose PostgreSQL because I already have experience working with it. It's quite
  ```  
 
 
-   I, of course, did not use passwords in plain text but stored them in GitHub secrets.
+   Later I changed this to not use passwords in plain text but to store them in GitHub secrets.
 
 #### Here is how to add Passwords to GitHub Secrets:
 
@@ -314,6 +314,10 @@ In the following milestones, I will explain how I set up the working application
 </p>
 
 ## 6. Preview of the Frontend
+
+<p align="center">
+  <img src="/images/frontend_login.png" alt="Registration and Login">
+</p>
 
 <p align="center">
   <img src="/images/frontend_goal.png" alt="Adding a goal">
