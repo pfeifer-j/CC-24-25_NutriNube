@@ -6,7 +6,7 @@ This is the repository for the project of the Cloud Computing course.
 
 ## Project (Laboratory Practices)
 
-## :pencil2: Problem Description
+## :pencil2: Milestone 1: Problem Description
 
 The primary objective of this project is to develop a fitness tracker that enables users to monitor their physical activity and track their food consumption. The application will help users achieve their health and fitness goals by providing detailed insights into their daily caloric intake and macronutrient distribution (proteins, fats, and carbohydrates). 
 
