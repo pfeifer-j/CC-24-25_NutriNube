@@ -1,3 +1,4 @@
+//app/static/app.js
 let calorieGoal = 0;
 let proteinGoal = 0;
 let fatGoal = 0;
@@ -264,7 +265,7 @@ $(document).ready(function() {
         const fitnessData = {
             exercise: $('#exercise').val(),
             kcal_burned: parseInt($('#kcal_burned').val(), 10),
-            date: selectedDate // Add this line to include the date
+            date: selectedDate
         };
     
         // Validate input
@@ -311,7 +312,7 @@ $(document).ready(function() {
             contentType: 'application/json',
             success: function(response) {
                 showToast('Food deleted successfully.');
-                fetchUserData(); // Refresh list to update indices
+                fetchUserData();
             },
             error: function(xhr) {
                 showToast('Failed to delete food item. Please try again.');
@@ -331,7 +332,7 @@ $(document).ready(function() {
             contentType: 'application/json',
             success: function(response) {
                 showToast('Exercise deleted successfully.');
-                fetchUserData(); // Refresh list to update indices
+                fetchUserData();
             },
             error: function(xhr) {
                 showToast('Failed to delete exercise. Please try again.');
