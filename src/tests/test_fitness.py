@@ -12,10 +12,15 @@ def test_delete_fitness(client, login):
         'exercise': 'Running',
         'kcal_burned': 300
     })
-    fitness_id = response.get_json().get('id', 1) 
+    assert response.status_code == 201
+    
+    fitness_id = response.get_json().get('id', 1)
+    
+    assert fitness_id is not None, "Fitness ID should not be None"
 
     response = client.delete('/api/fitness', json={
         'fitness_id': fitness_id
     })
+    
     assert response.status_code == 200
     assert b'Exercise deleted successfully!' in response.data

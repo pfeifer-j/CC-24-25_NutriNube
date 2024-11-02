@@ -18,10 +18,11 @@ def test_delete_food(client, login):
         'fat': 0.3,
         'carbs': 25
     })
+    
     food_id = response.get_json().get('id', 1)
-
     response = client.delete('/api/food', json={
         'food_id': food_id
     })
+    
     assert response.status_code == 200
     assert b'Food deleted successfully!' in response.data
