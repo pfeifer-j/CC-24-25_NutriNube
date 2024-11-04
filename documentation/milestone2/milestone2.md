@@ -13,8 +13,8 @@ In this milestone, I focused on implementing continuous integration (CI) and dep
 
 ## 1. Continuous Integration Setup with `tox` and `pytest`
 
-1.1 Why Choose `tox`?
-
+1.1 Why Choose `tox` as a task manager?
+- There are multiple task managers in python like `pyinvoke` or `doit` but most of them have featuresets that go way above just testing, where as `tox` is specialized for this task. 
 - `tox` offers an easy setup for automated testing through the [tox.ini](/tox.ini) file. It integrates well with GitHub Actions to execute tests seamlessly.
 - One of `tox`'s strengths is its ability to automatically create and manage virtual environments. This is especially useful for testing across different environments and Python versions.
 
@@ -60,9 +60,10 @@ To implement `tox` in the project:
    
 
 
-1.3 Why Choose `pytest`?
+1.3 Why Choose `pytest` as assertion library and testing framework?
 
 - `pytest` offers an intuitive syntax for writing tests, reducing boilerplate code.
+- It functions as an assertion library and testing framework at the same time.
 - It automatically locates and runs tests, simplifying the testing process.
 - It produces clear outputs, helping in debugging.
 - It works wonderfully in combination with `tox`!
@@ -246,7 +247,7 @@ I chose PostgreSQL because I already have experience working with it. It's quite
        app.secret_key = os.urandom(24)
 
        # Configure the database
-       app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'sqlite:///default.db')
+       app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'postgresql://flaskuser:NutriNube@db:5432/flaskdb')
        app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
        db.init_app(app)
 
@@ -287,7 +288,7 @@ And also:
   <img src="/images/docker_postgres_output.png" alt="Console output while interacting with the app">
 </p>
 
-## 5. Adding the Backend of My Application
+## 5. Adding the Backend of my Application
 
 Under `./src/app/app`, I started to implement the application. The application is split into:
 
