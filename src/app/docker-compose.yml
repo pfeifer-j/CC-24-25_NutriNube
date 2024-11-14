@@ -1,16 +1,29 @@
+# docker-compose.yml
+networks:
+  nutri_nube_network:
+    driver: bridge
+
 services:
   nutri_nube:
     build: .
-    container_name: nutri_nube
+    container_name: nutri_nube_app
     ports:
       - "5000:5000"
     volumes:
       - .:/app
-    depends_on:
-      - db
     environment:
       - DATABASE_URL=postgresql://pfeiferj:NutriNube@db:5432/flaskdb
     command: flask run --host=0.0.0.0
+    depends_on:
+      - fluentd
+      - db
+    logging:
+      driver: "fluentd"
+      options:
+        fluentd-address: "localhost:24224" # Change to: "fluentd:24224"
+        tag: httpd.access
+    networks:
+      - nutri_nube_network
 
   db:
     image: postgres:13
@@ -21,6 +34,27 @@ services:
       POSTGRES_DB: flaskdb
     volumes:
       - nutri_nube_db:/var/lib/postgresql/data
+    networks:
+      - nutri_nube_network
+
+  fluentd:
+    build: ./fluentd
+    container_name: nutri_nube_logger
+    ports:
+      - "24224:24224"
+      - "24224:24224/udp"
+    volumes:
+      - ./fluentd/conf:/fluentd/etc
+      - nutri_nube_logs:/fluentd/log
+    networks:
+      - nutri_nube_network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:24224"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 5s
 
 volumes:
   nutri_nube_db:
+  nutri_nube_logs:
