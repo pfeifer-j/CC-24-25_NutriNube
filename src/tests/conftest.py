@@ -8,6 +8,7 @@ def app():
     app = create_app()
     app.config['TESTING'] = True
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///:memory:'
+    # db.init_app(app)
     
     with app.app_context():
         db.create_all()
