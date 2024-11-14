@@ -39,12 +39,13 @@ class User(db.Model):
 
 # User Schema
 class UserSchema(SQLAlchemyAutoSchema):
+    username = fields.Str(required=True)
+    password = fields.Str(required=True, load_only=True)
     class Meta:
         model = User
         load_instance = True
         include_fk = True
-    username = fields.Str(required=True)
-    password = fields.Str(required=True, load_only=True)
+
 
 # FoodLog Schema
 class FoodLogSchema(SQLAlchemyAutoSchema):

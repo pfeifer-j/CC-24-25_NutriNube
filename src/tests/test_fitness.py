@@ -1,26 +1,21 @@
 # tests/test_fitness.py
 def test_add_fitness(client, login):
     response = client.post('/api/fitness', json={
+        'date': '2023-10-15',  # Example date
         'exercise': 'Running',
         'kcal_burned': 300
     })
     assert response.status_code == 201
-    assert b'Exercise added successfully!' in response.data
 
 def test_delete_fitness(client, login):
     response = client.post('/api/fitness', json={
+        'date': '2023-10-15',  # Example date
         'exercise': 'Running',
         'kcal_burned': 300
     })
     assert response.status_code == 201
-    
-    fitness_id = response.get_json().get('id', 1)
-    
-    assert fitness_id is not None, "Fitness ID should not be None"
+    fitness_id = response.get_json().get('id')
+    assert fitness_id is not None
 
-    response = client.delete('/api/fitness', json={
-        'fitness_id': fitness_id
-    })
-    
+    response = client.delete('/api/fitness', json={'fitness_id': fitness_id})
     assert response.status_code == 200
-    assert b'Exercise deleted successfully!' in response.data

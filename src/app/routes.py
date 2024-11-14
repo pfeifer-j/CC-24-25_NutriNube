@@ -178,10 +178,8 @@ def init_routes(app):
     @app.route('/register', methods=['POST'])
     def register():
         try:
-            schema = UserSchema()
-            data = schema.load(request.form, session=db.session, partial=True)
-            username = data.username # request.form.get('username')
-            password = data.password # request.form.get('password')
+            username = request.form.get('username')
+            password = request.form.get('password')
             
             if not username or not password:
                 return jsonify({'error': 'Username and password must be provided.'}), 400
@@ -333,7 +331,7 @@ def init_routes(app):
                 'food': new_food_log.food,
                 'ip': request.remote_addr
             })
-            return jsonify({'message': 'Food added successfully!'}), 201
+            return jsonify({'message': 'Food added successfully!', 'id': new_food_log.id}), 201
 
         except ValidationError as err:
             current_app.logger.warning({
@@ -350,7 +348,7 @@ def init_routes(app):
                 'ip': request.remote_addr
             })
             return jsonify({'error': 'An unexpected error occurred'}), 500
-
+    
     @app.route('/api/food', methods=['DELETE'])
     @login_required
     def delete_food():
@@ -456,7 +454,8 @@ def init_routes(app):
                 'exercise': validated_data.exercise,
                 'ip': request.remote_addr
             })
-            return jsonify({'message': 'Exercise added successfully!'}), 201
+            return jsonify({'message': 'Exercise added successfully!', 'id': new_fitness_log.id}), 201
+
 
         except ValidationError as err:
             current_app.logger.warning({

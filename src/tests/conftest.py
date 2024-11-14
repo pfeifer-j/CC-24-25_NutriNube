@@ -1,14 +1,12 @@
 # tests/conftest.py
 import pytest
 from app import create_app, db
-
 @pytest.fixture
 def app():
     """Set up the Flask application for testing."""
     app = create_app()
     app.config['TESTING'] = True
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///:memory:'
-    # db.init_app(app)
     
     with app.app_context():
         db.create_all()
