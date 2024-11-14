@@ -109,7 +109,7 @@ $(document).ready(function() {
         $.ajax({
             type: 'GET',
             url: '/daily-summary',
-            data: {date: selectedDate},
+            data: { date: selectedDate },
             success: function(response) {
                 calorieGoal = response.calories_goal;
                 proteinGoal = response.protein_goal;
@@ -122,10 +122,11 @@ $(document).ready(function() {
                 const totalFatConsumed = response.total_fat;
                 const totalCarbsConsumed = response.total_carbs;
 
+                // Clear and populate food data
                 const foodList = $('#food-list tbody').empty();
-                response.food_log.forEach(function(item, index) {
+                response.food_log.forEach(function(item) {
                     foodList.append(`
-                        <tr data-index="${index}">
+                        <tr data-id="${item.id}">
                             <td>${item.food}</td>
                             <td>${item.calories}</td>
                             <td>${item.protein}</td>
@@ -138,10 +139,11 @@ $(document).ready(function() {
                     `);
                 });
 
+                // Clear and populate fitness data
                 const fitnessList = $('#fitness-list tbody').empty();
-                response.fitness_log.forEach(function(item, index) {
+                response.fitness_log.forEach(function(item) {
                     fitnessList.append(`
-                        <tr data-index="${index}">
+                        <tr data-id="${item.id}">
                             <td>${item.exercise}</td>
                             <td>${item.kcal_burned}</td>
                             <td>
@@ -151,6 +153,7 @@ $(document).ready(function() {
                     `);
                 });
 
+                // Register click handlers
                 $('.delete-food').click(deleteFood);
                 $('.delete-fitness').click(deleteFitness);
 
@@ -161,7 +164,6 @@ $(document).ready(function() {
             }
         });
     }
-
 
     document.addEventListener("DOMContentLoaded", function() {
         // Fetch the current values displayed on the page
@@ -299,16 +301,15 @@ $(document).ready(function() {
             }
         });
     });
-    
-    // Delete food item
+
     function deleteFood() {
         const row = $(this).closest('tr');
-        const index = row.data('index');
-
+        const foodId = row.data('id');
+        
         $.ajax({
             type: 'DELETE',
             url: '/api/food',
-            data: JSON.stringify({ index: index }),
+            data: JSON.stringify({ food_id: foodId }),
             contentType: 'application/json',
             success: function(response) {
                 showToast('Food deleted successfully.');
@@ -319,16 +320,15 @@ $(document).ready(function() {
             }
         });
     }
-
-    // Delete fitness item
+    
     function deleteFitness() {
         const row = $(this).closest('tr');
-        const index = row.data('index');
+        const fitnessId = row.data('id');
 
         $.ajax({
             type: 'DELETE',
             url: '/api/fitness',
-            data: JSON.stringify({ index: index }),
+            data: JSON.stringify({ fitness_id: fitnessId }),
             contentType: 'application/json',
             success: function(response) {
                 showToast('Exercise deleted successfully.');
