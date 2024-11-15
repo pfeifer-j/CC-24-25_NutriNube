@@ -13,19 +13,17 @@ In this milestone, a microservice using `Flask` has been designed and implemente
 
 ## 1. API Framework
 
-1.1 Why Choose `Flask` as a Framework
+1.1 Why Choose `Flask` as a Framework?
 
-`Flask` was chosen for building the microservice due to its simplicity, flexibility, and active community. Key advantages include:
-
-- Ideal for microservices that require rapid development without overhead.
-- Values simplicity and flexibility.
-- Lightweight and modular design, perfect for smaller projects like this one. 
-- Easily integrates with libraries like `Marshmallow` for data validation and `Fluent` for logging.
+Flask` is an nice choice for building microservices, offering the following advantages:
+- `Flask` provides a minimalist, lightweight core, perfect for smaller projects like this one.
+- It has a strong community with good documentations.
+- `Flask` easily integrates with data validation libraries like `Marshmallow` and logging tools like `Fluent`.
 
 Key `Flask` Features Utilized:
-- Route handling for defining API endpoints.
-- Built-in support for unit testing.
-- Easy-to-extend architecture.
+- Route Handling: Efficiently manage API endpoints with built-in routing capabilities.
+- Unit Testing Support: Designed with testing in mind, providing easy setup for unit tests to ensure robust application behavior.
+- Extensible Architecture: Allows for straightforward integration of third-party extensions.
 
 1.2 API Design and Routes
 
@@ -72,8 +70,17 @@ def add_food():
 A detailed description of the routes can be found in [the api guide](/documentation/milestone3/api_guide.md).
 
 ## 2. Implementation of Schemas with `marshmallow`
+2.1 Why Choose `marshmallow`?
 
-`Marshmallow` is utilized for serialization and validation of input data. It ensures incoming data meets specified criteria before processing and automatically generates error messages for incorrect data formats.
+`Marshmallow` is a good choice for handling serialization and validation since it offers a nice featureset:
+  - Automatically validates incoming data against defined schemas.
+  - Generates detailed error messages when data does not meet specified criteria.
+  - Enables deserialization of incoming JSON data back into objects.
+  - Provides seamless integration with `SQLAlchemy` models through extensions.
+  - Supported by an active community with comprehensive documentation.
+
+2.2 How to use `marshmallow`
+
 To use `marshmallow` we need to implement schemas.
 
 Example Model Schema:
@@ -116,8 +123,16 @@ except ValidationError as err:
 ```
 
 ## 3. Logging Implementation with `Fluent`
+3.1 Why Choose `fluent`?
 
-`Fluent` is utilized for logging application activity, both to a file and standard output.
+`Fluentd` is a robust choice for logging application activity due to the following features:
+- Logs can be directed to various destinations, including files, standard output, and external logging systems like `Docker`.
+- Offers a consistent interface for collecting logs across multiple services and environments.
+- Allows configuration for collecting, filtering, and outputting logs.
+- Supported by a strong community and reccouces.
+
+3.2 How to use `fluent`
+
 To use `Fluent`, it has to be configured and a Dockerfile has to be added.
 
 Content of [fluent.conf](/src/app/fluentd/conf/fluent.conf):
@@ -239,12 +254,7 @@ My tests can be found under [/src/tests](/src/tests). I implemented test for:
 - Adding and deleting food entries
 - Adding and deleting fitness entries
 
-## 5. Future Implementations
-
-This milestone successfully established a functioning microservice using `Flask`, `Marshmallow` for data validation, and `Fluent` for logging. The project is implemented in a containerized fashion using three different containers for the application logic, logging, and database. Future plans include enhancing the already working frontend, which was initially implemented as a prototype in [milestone 2](/documentation/milestone2/milestone2.md).
-.
-
-## 6. Optional Frontend Design
+## 5. Optional Frontend
 
 1. Registration and Login:
    <p align="center">
