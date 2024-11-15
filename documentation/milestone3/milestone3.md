@@ -116,7 +116,7 @@ except ValidationError as err:
 ## 3. Logging Implementation with `Fluent`
 
 `Fluent` is utilized for logging application activity, both to a file and standard output.
-To use `Fluent`, it has to be configured and added to Docker.
+To use `Fluent`, it has to be configured and a Dockerfile has to be added.
 
 Content of [fluent.conf](/src/app/fluentd/conf/fluent.conf):
 ```plaintext
@@ -135,6 +135,18 @@ Content of [fluent.conf](/src/app/fluentd/conf/fluent.conf):
 <match *.*>
   @type stdout
 </match>
+```
+
+Content of [fluent.conf](/src/app/fluentd/Dockerfile):
+```yaml
+# fluentd/Dockerfile
+FROM fluent/fluentd:v1.12.0-debian-1.0
+
+USER root
+USER fluent
+
+COPY conf/fluent.conf /fluentd/etc/
+CMD ["fluentd", "-c", "/fluentd/etc/fluent.conf"]
 ```
 
 The [docker-compose.yml](/src/app/docker-compose.yml) has been adjusted to run `Fluent` in a separate container while defining the network structure and its own volume:
