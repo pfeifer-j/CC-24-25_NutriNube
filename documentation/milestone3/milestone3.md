@@ -41,7 +41,7 @@ app/
   └── ...
 ```
 
-The following routes have been implemented in [routes.py](/src/app/routes.py):
+The following routes have been implemented under [/src/app/routes](/src/app/routes):
 #### For routing:
 1. `/` - Home route: Displays the dashboard.
 2. `/register` - Registration route: Registers a new user.
