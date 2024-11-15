@@ -33,10 +33,12 @@ The project is organized in a modular way to maintain clean code:
 
 ```plaintext
 app/
-│   ├── __init__.py       # Initializes the application and extensions
-│   ├── models.py         # Defines data models
-│   ├── routes.py         # Defines API routes
-│   └── ...
+  ├── __init__.py    # Initializes the application and extensions
+  ├── app.py         # Starts the application
+  ├── ...
+  ├── models         # Defines data models
+  ├── routes         # Defines API routes
+  └── ...
 ```
 
 The following routes have been implemented in [routes.py](/src/app/routes.py):
