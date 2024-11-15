@@ -1,3 +1,4 @@
+# app/requrements.txt
 Flask
 Flask-Cors
 Flask-SQLAlchemy

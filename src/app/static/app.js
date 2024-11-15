@@ -1,4 +1,4 @@
-//app/static/app.js
+// app/static/app.js
 let calorieGoal = 0;
 let proteinGoal = 0;
 let fatGoal = 0;
@@ -27,13 +27,9 @@ $(document).ready(function() {
         console.log('jQuery is loaded');
     }
 
-    // Set the date picker to the stored date or default to today
     $('#date-picker').val(selectedDate);
-
-    // Display the stored or default date
     $('#selected-date').text(new Date(selectedDate).toLocaleDateString());
 
-    // Fetch data for the selected date
     fetchUserData();
 
     $('#date-picker').on('change', function() {
@@ -43,7 +39,6 @@ $(document).ready(function() {
         fetchUserData();
     });
 
-    // Submit handler for login form
     $('#login-form').on('submit', function(e) {
         e.preventDefault();
         const username = $('#login-username').val();
@@ -57,18 +52,15 @@ $(document).ready(function() {
                 password: password
             },
             success: function(response) {
-                // Handle successful login (e.g., redirect to the homepage)
                 window.location.href = '/'; 
             },
             error: function(xhr) {
-                // Handle error: Display the error message
                 const response = xhr.responseJSON;
                 showToast(response.error || 'Login failed. Please try again.');
             }
         });
     });
 
-    // Submit handler for register form
     $('#register-form').on('submit', function(e) {
         e.preventDefault();
         const username = $('#register-username').val();
@@ -166,20 +158,17 @@ $(document).ready(function() {
     }
 
     document.addEventListener("DOMContentLoaded", function() {
-        // Fetch the current values displayed on the page
         const calorieGoalText = document.getElementById('calories-goal-text').textContent;
         const proteinGoalText = document.getElementById('protein-goal-text').textContent;
         const fatGoalText = document.getElementById('fat-goal-text').textContent;
         const carbsGoalText = document.getElementById('carbs-goal-text').textContent;
     
-        // Set the input fields' value attribute to match the current goals
         document.getElementById('calorie_goal').value = calorieGoalText;
         document.getElementById('protein_goal').value = proteinGoalText;
         document.getElementById('fat_goal').value = fatGoalText;
         document.getElementById('carbs_goal').value = carbsGoalText;
     });
 
-    // Submit handler for goal form
     $('#goal-form').on('submit', function(e) {
         e.preventDefault();
         const newCalorieGoal = parseInt($('#calorie_goal').val(), 10);
@@ -228,7 +217,6 @@ $(document).ready(function() {
             date: selectedDate
         };
     
-        // Validate input
         if (isNaN(foodData.calories) || isNaN(foodData.protein) || isNaN(foodData.fat) || isNaN(foodData.carbs)) {
             showToast("Please enter valid numbers for calories and macronutrients.");
             return;
@@ -270,7 +258,6 @@ $(document).ready(function() {
             date: selectedDate
         };
     
-        // Validate input
         if (isNaN(fitnessData.kcal_burned)) {
             showToast("Please enter a valid number for calories burned.");
             return;

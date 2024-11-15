@@ -414,9 +414,9 @@ def init_routes(app):
             # Load the incoming JSON data
             incoming_data = request.get_json()
 
-            # Prepare data for the schema load by adding user_id
+            # Prepare data for the schema load
             data = {
-                'user_id': user.id,  # Set user_id from the authenticated user
+                'user_id': user.id,
                 'date': incoming_data.get('date'),
                 'exercise': incoming_data.get('exercise'),
                 'kcal_burned': incoming_data.get('kcal_burned')
@@ -424,7 +424,7 @@ def init_routes(app):
 
             # Validate and deserialize the data
             schema = FitnessLogSchema()
-            validated_data = schema.load(data, session=db.session)  # Pass the modified data
+            validated_data = schema.load(data, session=db.session) 
 
             # Validate required fields after loading
             if not validated_data.exercise or validated_data.kcal_burned is None:

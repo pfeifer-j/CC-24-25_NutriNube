@@ -38,10 +38,12 @@ def create_app():
     
     db.init_app(app)
 
+    # Import models
     with app.app_context():
         from . import models
         db.create_all()
 
+    # Import routes
     from .routes import init_routes
     init_routes(app)
 

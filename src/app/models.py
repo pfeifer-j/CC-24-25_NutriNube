@@ -53,7 +53,6 @@ class FoodLogSchema(SQLAlchemyAutoSchema):
         model = FoodLog
         include_fk = True
         load_instance = True
-    # user = fields.Nested('UserSchema', exclude=('food_logs', 'fitness_logs'))
 
 # FitnessLog Schema
 class FitnessLogSchema(SQLAlchemyAutoSchema):
@@ -61,4 +60,3 @@ class FitnessLogSchema(SQLAlchemyAutoSchema):
         model = FitnessLog
         include_fk = True
         load_instance = True
-    # user = fields.Nested('UserSchema', exclude=('food_logs', 'fitness_logs'))
