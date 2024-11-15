@@ -35,6 +35,11 @@ For detailed descriptions of the methods and configurations employed, refer to t
 
 ## :pencil2: Milestone 3: Microservice Design
 
-Milestone 3 centered on designing and implementing a microservice architecture using `flask`. This involved developing a RESTful API to efficiently manage user data, including food logs, fitness activities, and personal goals. Key enhancements included the integration of `marshmallow` for robust data validation and `fluent` for comprehensive logging. The microservice was containerized using Docker to separate containers for the application, logging, and the PostgreSQL database. In Addition, the tests have been refined. 
+Milestone 3 centered on designing and implementing a microservice architecture using `Flask`. This involved developing a RESTful API to efficiently manage user data, including food logs, fitness activities, and personal goals. Key enhancements included the integration of `marshmallow` for robust data validation and `fluent` for comprehensive logging. The microservice was containerized using Docker to separate containers for the application, logging, and the PostgreSQL database. In Addition, the tests have been refined. Here’s a summary of the implementations:
+- Developed a RESTful API using `Flask` to manage routes. 
+- Integrated `marshmallow` for data validation and serialization.
+- Implemented `fluent` for logging application activity.
+- Containerized the application with Docker, including separate containers for the app, logging, and PostgreSQL database.
+- Refined and expanded test coverage to ensure API reliability.
 
 For detailed descriptions of the methods and configurations employed, refer to the [Milestone 3 Documentation](/documentation/milestone3/milestone3.md).
