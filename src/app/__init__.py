@@ -11,7 +11,6 @@ from flask_marshmallow import Marshmallow
 db = SQLAlchemy()
 ma = Marshmallow()
 
-
 def create_app():
     app = Flask(__name__)
     CORS(app)
@@ -39,13 +38,27 @@ def create_app():
     db.init_app(app)
 
     # Import models
+    from .models.models import User, FoodLog, FitnessLog, UserSchema, FoodLogSchema, FitnessLogSchema
+    
+    # Create database tables
     with app.app_context():
-        from . import models
         db.create_all()
 
-    # Import routes
-    from .routes import init_routes
-    init_routes(app)
+    # Import and initialize route modules
+    from .routes.routes_auth import init_auth_routes
+    from .routes.routes_navigation import init_navigation_routes
+    from .routes.routes_food import init_food_routes
+    from .routes.routes_fitness import init_fitness_routes
+    from .routes.routes_summary import init_summary_routes
+    from .routes.routes_goals import init_goals_routes
+    
+    # Initialize routes
+    init_auth_routes(app)
+    init_navigation_routes(app)
+    init_food_routes(app)
+    init_fitness_routes(app)
+    init_summary_routes(app)
+    init_goals_routes(app)
 
     @app.before_request
     def log_request_info():

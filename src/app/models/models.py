@@ -1,5 +1,5 @@
-# app/models.py
-from . import db, ma
+# app/models/models.py
+from .. import db, ma
 from marshmallow import fields
 from marshmallow_sqlalchemy import SQLAlchemyAutoSchema
 
