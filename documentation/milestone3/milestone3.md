@@ -7,17 +7,19 @@ Version 0.2.0
 
 ## Description of the Milestone
 
-In this milestone, a microservice using `Flask` has been designed and implemented based on the functionality developed in the previous milestone. An API following REST conventions has been created to manage food logs, fitness logs, and user goals while integrating logging and validation.
+In this milestone, a microservice using `Flask` has been designed and implemented based on the functionality developed in [the previous milestone](/documentation/milestone2/milestone2.md). An API following REST conventions has been created to manage food logs, fitness logs, and user goals while integrating logging and validation. Furthermore, with more complex routes the tests have been adjusted accordingly.
 
 ---
 
 ## 1. API Framework
 
 1.1 Why Choose `Flask` as a Framework
+
 `Flask` was chosen for building the microservice due to its simplicity, flexibility, and active community. Key advantages include:
 
 - Ideal for microservices that require rapid development without overhead.
-- Lightweight and modular design.
+- Values simplicity and flexibility.
+- Lightweight and modular design, perfect for smaller projects like this one. 
 - Easily integrates with libraries like `Marshmallow` for data validation and `Fluent` for logging.
 
 Key `Flask` Features Utilized:
@@ -29,77 +31,95 @@ Key `Flask` Features Utilized:
 
 The project is organized in a modular way to maintain clean code:
 
-plaintext
+```plaintext
 app/
 │   ├── __init__.py       # Initializes the application and extensions
 │   ├── models.py         # Defines data models
 │   ├── routes.py         # Defines API routes
 │   └── ...
+```
 
+The following routes have been implemented in [routes.py](/src/app/routes.py):
+#### For routing:
+1. `/` - Home route: Displays the dashboard.
+2. `/register` - Registration route: Registers a new user.
+3. `/login` - Login route: Used for user authentication.
+4. `/logout` - Logout route: Logs out the current user.
+5. `/dashboard` - Dashboard route: Displays the dashboard.
+6. `/goals` - Goals route: Manages user goals.
+7. `/foods` - Food route: Manages food log entries.
+8. `/activities` - Activities route: Displays the activities page.
+9. `/summary` - Summary route: Displays summary page.
+10. `/daily-summary` - Daily summary route: Provides a summary data of daily food and fitness logs.
 
-The following routes have been implemented in routes.py:
-
-1. `GET /goals`: Retrieves all user goals.
-2. `POST /api/food`: Adds a new food log entry.
-3. `POST /api/fitness`: Adds a new fitness log entry.
-4. `POST /login`: Authenticates a user.
-5. `POST /register`: Registers a new user and checks for duplicate usernames.
+#### For managing data:
+11. `/api/update-goal` - API route: Updates user goals.
+12. `/api/food` - API route: Adds food log entries.
+13. `/api/food` - API route: Deletes food log entries.
+14. `/api/fitness` - API route: Adds fitness log entries.
+15. `/api/fitness` - API route: Deletes fitness log entries.
 
 Example Implementation for the `/api/food` Route:
-python
+```python
 @app.route('/api/food', methods=['POST'])
 @login_required
 def add_food():
     # Logic for adding food
+```
 
+A detailed description of the routes can be found in [the api guide](/documentation/milestone3/api_guide.md).
 
-A detailed description of the routes can be found in api_guide.md.
+## 2. Implementation of Schemas with `marshmallow`
 
-## 2. Implementation of Schemas with `Marshmallow`
-
-`Marshmallow` is utilized for serialization and validation of input data:
-
-- Ensures incoming data meets specified criteria before processing.
-- Automatically generates error messages for incorrect data formats.
+`Marshmallow` is utilized for serialization and validation of input data. It ensures incoming data meets specified criteria before processing and automatically generates error messages for incorrect data formats.
+To use `marshmallow` we need to implement schemas.
 
 Example Model Schema:
-python
-class UserSchema(SQLAlchemyAutoSchema):
+```python
+# FitnessLog Schema
+class FitnessLogSchema(SQLAlchemyAutoSchema):
     class Meta:
-        model = User
-        load_instance = True
+        model = FitnessLog
         include_fk = True
-    username = fields.Str(required=True)
-    password = fields.Str(required=True, load_only=True)
+        load_instance = True
+```
 
+When adding a fitness log, input data is validated using:
+```python
+# Load the incoming JSON data
+incoming_data = request.get_json()
 
-When adding a food log, input data is validated using:
-python
-schema = UserSchema()
-data = schema.load(request.form, session=db.session, partial=True)
+# Prepare data for the schema load
+data = {
+    'user_id': user.id,
+    'date': incoming_data.get('date'),
+    'exercise': incoming_data.get('exercise'),
+    'kcal_burned': incoming_data.get('kcal_burned')
+}
 
+# Validate and deserialize the data
+schema = FitnessLogSchema()
+validated_data = schema.load(data, session=db.session) 
+```
 
 Handling Validation Errors:
-python
+```python
 except ValidationError as err:
     current_app.logger.warning({
-        'event': 'registration_attempt',
-        'message': 'Invalid data provided',
-        'ip': request.remote_addr,
-        'errors': err.messages
+        'event': 'add_fitness_validation_failed',
+        'errors': err.messages,
+        'ip': request.remote_addr
     })
     return jsonify(err.messages), 400
-
+```
 
 ## 3. Logging Implementation with `Fluent`
 
 `Fluent` is utilized for logging application activity, both to a file and standard output.
+To use `Fluent`, it has to be configured and added to Docker.
 
-Fluent Configuration:
-
-To use `Fluent`, it has to be configured correctly and added to Docker. Under src/app/fluentd/conf/fluent.conf:
-
-plaintext
+Content of [fluent.conf](/src/app/fluentd/conf/fluent.conf):
+```plaintext
 <source>
   @type forward
   port 24224
@@ -115,13 +135,11 @@ plaintext
 <match *.*>
   @type stdout
 </match>
+```
 
+The [docker-compose.yml](/src/app/docker-compose.yml) has been adjusted to run `Fluent` in a separate container while defining the network structure and its own volume:
 
-Docker Compose for Logging:
-
-The `docker-compose.yml` has been adjusted to run `Fluent` in a separate container while defining the network structure:
-
-yaml
+```yaml
 # docker-compose.yml
 networks:
   nutri_nube_network:
@@ -182,10 +200,10 @@ services:
 volumes:
   nutri_nube_db:
   nutri_nube_logs:
+```
 
-
-Additionally, the `requirements.txt` was updated:
-plaintext
+Additionally, the [requirements.txt](/src/app/requirements.txt) was updated:
+```plaintext
 Flask
 Flask-Cors
 Flask-SQLAlchemy
@@ -194,19 +212,25 @@ psycopg2-binary
 fluent-logger
 marshmallow
 marshmallow-sqlalchemy
-
+```
 
 ## 4. Testing and Validation
 
-Part of this milestone is to update the tests, but in my case, I already implemented testing for Milestone 2.
+Part of this milestone is to update the tests, but in my case, I already implemented testing in [milestone 2](/documentation/milestone2/milestone2.md).
 
-My tests can be found here.
+My tests can be found under [/src/tests](/src/tests). I implemented test for:
+- Registration and Logging
+- Accessing pages without authentification
+- Setting goals
+- Adding and deleting food entries
+- Adding and deleting fitness entries
 
 ## 5. Future Implementations
 
-This milestone successfully established a functioning microservice using `Flask`, `Marshmallow` for data validation, and `Fluent` for logging. The project is implemented in a containerized fashion using three different containers for the application logic, logging, and database. Future plans include enhancing the already working frontend, which was initially implemented as a prototype in Milestone 2 Documentation.
+This milestone successfully established a functioning microservice using `Flask`, `Marshmallow` for data validation, and `Fluent` for logging. The project is implemented in a containerized fashion using three different containers for the application logic, logging, and database. Future plans include enhancing the already working frontend, which was initially implemented as a prototype in [milestone 2](/documentation/milestone2/milestone2.md).
+.
 
-## 6. Preview of the Frontend
+## 6. Optional Frontend Design
 
 1. Registration and Login:
    <p align="center">
