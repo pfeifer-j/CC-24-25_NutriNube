@@ -1,15 +1,14 @@
 # app/routes/routes_fitness.py
-from flask import render_template, redirect, url_for, request, jsonify, session, current_app
-from werkzeug.security import generate_password_hash, check_password_hash
-from ..models.models import User, FoodLog, FitnessLog, UserSchema, FoodLogSchema, FitnessLogSchema
+from flask import jsonify, request, session, current_app
+from ..models.models import User, FitnessLog, FitnessLogSchema
 from .. import db
-from functools import wraps
-from datetime import datetime
 from marshmallow import ValidationError
 from .routes_auth import login_required
 
+# Initialize routes related to fitness logs
 def init_fitness_routes(app):
-    
+
+    # Route to handle adding a new fitness log
     @app.route('/api/fitness', methods=['POST'])
     @login_required
     def add_fitness():
@@ -17,6 +16,7 @@ def init_fitness_routes(app):
             # Fetch the currently logged-in user
             user = User.query.filter_by(username=session['username']).first()
             if not user:
+                # Log error if the user is not found in the session
                 current_app.logger.error({
                     'event': 'add_fitness_failed',
                     'message': 'User not found',
@@ -25,7 +25,7 @@ def init_fitness_routes(app):
                 })
                 return jsonify({'error': 'User not found'}), 404
 
-            # Load the incoming JSON data
+            # Load incoming JSON data from request
             incoming_data = request.get_json()
 
             # Prepare data for the schema load
@@ -36,31 +36,21 @@ def init_fitness_routes(app):
                 'kcal_burned': incoming_data.get('kcal_burned')
             }
 
-            # Validate and deserialize the data
+            # Validate and deserialize the data using the schema
             schema = FitnessLogSchema()
-            validated_data = schema.load(data, session=db.session) 
+            validated_data = schema.load(data, session=db.session)
 
-            # Validate required fields after loading
-            if not validated_data.exercise or validated_data.kcal_burned is None:
-                current_app.logger.warning({
-                    'event': 'add_fitness_failed',
-                    'message': 'Missing fitness details',
-                    'ip': request.remote_addr
-                })
-                return jsonify({'error': 'Exercise and kcal burned are required'}), 400
-
-            # Create a FitnessLog instance
+            # Create a new FitnessLog instance and store in the database
             new_fitness_log = FitnessLog(
                 user_id=validated_data.user_id,
                 date=validated_data.date,
                 exercise=validated_data.exercise,
                 kcal_burned=validated_data.kcal_burned
             )
-
-            # Add to the database and commit
             db.session.add(new_fitness_log)
             db.session.commit()
 
+            # Log success and return response
             current_app.logger.info({
                 'event': 'add_fitness_success',
                 'message': 'Exercise added successfully',
@@ -70,8 +60,8 @@ def init_fitness_routes(app):
             })
             return jsonify({'message': 'Exercise added successfully!', 'id': new_fitness_log.id}), 201
 
-
         except ValidationError as err:
+            # Log validation failure and return errors
             current_app.logger.warning({
                 'event': 'add_fitness_validation_failed',
                 'errors': err.messages,
@@ -80,6 +70,7 @@ def init_fitness_routes(app):
             return jsonify(err.messages), 400
 
         except Exception as e:
+            # Log unexpected exceptions and return a generic error
             current_app.logger.error({
                 'event': 'add_fitness_error',
                 'message': f"An error occurred: {str(e)}",
@@ -87,24 +78,48 @@ def init_fitness_routes(app):
             })
             return jsonify({'error': 'An unexpected error occurred'}), 500
 
+    # Route to handle deleting an existing fitness log
     @app.route('/api/fitness', methods=['DELETE'])
     @login_required
     def delete_fitness():
-        try:
-            data = request.get_json()
-            fitness_id = data.get('fitness_id')
+        username = session.get('username')
+        user = User.query.filter_by(username=username).first()
+        if not user:
+            # Log error if user is not found
+            current_app.logger.error({
+                'event': 'delete_fitness_failed',
+                'message': 'User not found',
+                'username': session.get('username'),
+                'ip': request.remote_addr
+            })
+            return jsonify({'error': 'User not found'}), 404
 
-            if fitness_id is None:
+        try:
+            # Load and check incoming JSON data
+            data = request.get_json()
+            if data is None:
+                current_app.logger.warning({
+                    'event': 'delete_fitness_failed',
+                    'message': 'Missing JSON data',
+                    'ip': request.remote_addr
+                })
+                return jsonify({'error': 'Invalid or missing JSON data'}), 400
+
+            # Extract fitness ID from the request
+            fitness_id = data.get('fitness_id')
+            if not fitness_id:
                 current_app.logger.warning({
                     'event': 'delete_fitness_failed',
                     'message': 'Fitness ID missing',
                     'ip': request.remote_addr
                 })
                 return jsonify({'error': 'Fitness ID is required'}), 400
-                
-            fitness_log = FitnessLog.query.get(fitness_id)
-            
-            if fitness_log: # and fitness_log.user.username == session['username']:
+
+            # Fetch the fitness log using the session
+            fitness_log = db.session.get(FitnessLog, fitness_id)
+
+            # Check log ownership and perform deletion if authorized
+            if fitness_log and fitness_log.user_id == user.id:
                 db.session.delete(fitness_log)
                 db.session.commit()
                 current_app.logger.info({
@@ -116,6 +131,7 @@ def init_fitness_routes(app):
                 })
                 return jsonify({'message': 'Exercise deleted successfully!'}), 200
 
+            # Log error if the log was not found or user is unauthorized
             current_app.logger.error({
                 'event': 'delete_fitness_failed',
                 'message': 'Exercise not found or unauthorized',
@@ -123,9 +139,10 @@ def init_fitness_routes(app):
                 'fitness_id': fitness_id,
                 'ip': request.remote_addr
             })
-            return jsonify({'error': 'Exercise not found!'}), 404
+            return jsonify({'error': 'Exercise not found or unauthorized'}), 404
 
         except Exception as e:
+            # Log unexpected exceptions and return a generic error
             current_app.logger.error({
                 'event': 'delete_fitness_error',
                 'message': f"An error occurred: {str(e)}",
