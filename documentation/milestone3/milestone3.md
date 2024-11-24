@@ -1,7 +1,7 @@
 # :pushpin: Milestone 3: Microservice Design :pushpin:
 
 ## :book: NutriNube :book:  
-Version 0.2.0
+Version 2.0.0
 
 ---
 
