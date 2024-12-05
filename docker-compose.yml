@@ -5,23 +5,29 @@ networks:
 
 services:
   nutri_nube:
-    build: .
+    image: ghcr.io/pfeifer-j/nutrinube:2.0.0
+    build:
+      context: .
+      dockerfile: Dockerfile
     container_name: nutri_nube_app
     ports:
       - "5000:5000"
     volumes:
-      - .:/app
+      - ./src/app:/app
     environment:
       - DATABASE_URL=postgresql://pfeiferj:NutriNube@db:5432/flaskdb
-    command: flask run --host=0.0.0.0
+    command: ["flask", "run", "--host=0.0.0.0"]
     depends_on:
       - fluentd
       - db
     logging:
       driver: "fluentd"
       options:
-        fluentd-address: "localhost:24224" # Change to: "fluentd:24224"
+        fluentd-address: "fluentd:24224"
         tag: httpd.access
+        fluentd-async-connect: "true"
+        fluentd-retry-wait: 1s
+        fluentd-max-retries: 30
     networks:
       - nutri_nube_network
 
