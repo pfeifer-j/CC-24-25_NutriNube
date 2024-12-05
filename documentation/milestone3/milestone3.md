@@ -1,7 +1,7 @@
 # :pushpin: Milestone 3: Microservice Design :pushpin:
 
 ## :book: NutriNube :book:  
-Version 0.2.0
+Version 2.0.0
 
 ---
 
@@ -15,9 +15,9 @@ In this milestone, a microservice using `Flask` has been designed and implemente
 
 1.1 Why Choose `Flask` as a Framework?
 
-Flask` is an nice choice for building microservices, offering the following advantages:
+`Flask` is a nice choice for building microservices, offering the following advantages:
 - `Flask` provides a minimalist, lightweight core, perfect for smaller projects like this one.
-- It has a strong community with good documentations.
+- It has a strong community with good documentation.
 - `Flask` easily integrates with data validation libraries like `Marshmallow` and logging tools like `Fluent`.
 
 Key `Flask` Features Utilized:
@@ -39,25 +39,21 @@ app/
   └── ...
 ```
 
-The following routes have been implemented under [/src/app/routes](/src/app/routes):
+The following routes are the most important ones that have been implemented under [/src/app/routes](/src/app/routes):
 #### For routing:
 1. `/` - Home route: Displays the dashboard.
 2. `/register` - Registration route: Registers a new user.
 3. `/login` - Login route: Used for user authentication.
 4. `/logout` - Logout route: Logs out the current user.
-5. `/dashboard` - Dashboard route: Displays the dashboard.
-6. `/goals` - Goals route: Manages user goals.
-7. `/foods` - Food route: Manages food log entries.
-8. `/activities` - Activities route: Displays the activities page.
-9. `/summary` - Summary route: Displays summary page.
-10. `/daily-summary` - Daily summary route: Provides a summary data of daily food and fitness logs.
+5. `/goals` - Goals route: Manages user goals.
+6. `/foods` - Food route: Manages food log entries.
+7. `/activities` - Activities route: Displays the activities page.
+8. `/summary` - Summary route: Displays summary page.
 
 #### For managing data:
-11. `/api/update-goal` - API route: Updates user goals.
-12. `/api/food` - API route: Adds food log entries.
-13. `/api/food` - API route: Deletes food log entries.
-14. `/api/fitness` - API route: Adds fitness log entries.
-15. `/api/fitness` - API route: Deletes fitness log entries.
+9. `/api/update-goal` - API route: Updates user goals.
+10. `/api/food` - API route: Manages food log entries.
+11. `/api/fitness` - API route: Manages fitness log entries.
 
 Example Implementation for the `/api/food` Route:
 ```python
@@ -67,7 +63,7 @@ def add_food():
     # Logic for adding food
 ```
 
-A detailed description of the routes can be found in [the api guide](/documentation/milestone3/api_guide.md).
+A detailed description of all the routes can be found in [the api guide](/documentation/milestone3/api_guide.md).
 
 ## 2. Implementation of Schemas with `marshmallow`
 2.1 Why Choose `marshmallow`?
@@ -91,6 +87,11 @@ class FitnessLogSchema(SQLAlchemyAutoSchema):
         model = FitnessLog
         include_fk = True
         load_instance = True
+    ...
+    @validates('calories')
+    def validate_calories(self, value):
+        if value is None or value < 0:
+            raise ValidationError('Calories must not be negative.')
 ```
 
 When adding a fitness log, input data is validated using:
@@ -125,11 +126,11 @@ except ValidationError as err:
 ## 3. Logging Implementation with `Fluent`
 3.1 Why Choose `fluent`?
 
-`Fluentd` is a robust choice for logging application activity due to the following features:
+`Fluent` is a robust choice for logging application activity due to the following features:
 - Logs can be directed to various destinations, including files, standard output, and external logging systems like `Docker`.
 - Offers a consistent interface for collecting logs across multiple services and environments.
 - Allows configuration for collecting, filtering, and outputting logs.
-- Supported by a strong community and reccouces.
+- Supported by a strong community and resources.
 
 3.2 How to use `fluent`
 
@@ -137,21 +138,37 @@ To use `Fluent`, it has to be configured and a Dockerfile has to be added.
 
 Content of [fluent.conf](/src/app/fluentd/conf/fluent.conf):
 ```plaintext
+# fluentd/conf/fluent.conf
 <source>
   @type forward
   port 24224
   bind 0.0.0.0
 </source>
 
-<match *.*>
-  @type file
-  path /fluentd/log/app_nutri_nube.log 
-  append true
+<match app.**>
+  @type stdout
+  <format>
+    @type json
+  </format>
+  <store>
+    @type file
+    path /fluentd/log/app.log
+    append true
+  </store>
 </match>
 
-<match *.*>
+<match httpd.access>
   @type stdout
+  <format>
+    @type json
+  </format>
+  <store>
+    @type file
+    path /fluentd/log/httpd_access.log
+    append true
+  </store>
 </match>
+
 ```
 
 Content of [fluent.conf](/src/app/fluentd/Dockerfile):
@@ -255,6 +272,16 @@ My tests can be found under [/src/tests](/src/tests). I implemented test for:
 - Adding and deleting fitness entries
 
 ## 5. Optional Frontend
+To launch the application with the frontend, use Docker by running the following commands:
+
+```bash
+cd .\src\app\
+docker-compose up --build
+docker-compose restart
+```
+Once the build process is complete, you can access the website at [localhost:5000](http://localhost:5000/).
+
+Below is a preview of the frontend:
 
 1. Registration and Login:
    <p align="center">
