@@ -30,6 +30,12 @@
           fluentd-max-retries: 30
       networks:
         - nutri_nube_network
+      healthcheck:
+        test: ["CMD", "curl", "-f", "http://localhost:5000"]
+        interval: 10s
+        timeout: 5s
+        retries: 3
+        start_period: 5s
 
     db:
       image: postgres:13
