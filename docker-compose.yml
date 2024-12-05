@@ -1,66 +1,66 @@
-# docker-compose.yml
-networks:
-  nutri_nube_network:
-    driver: bridge
+  # docker-compose.yml
+  networks:
+    nutri_nube_network:
+      driver: bridge
 
-services:
-  nutri_nube:
-    image: ghcr.io/pfeifer-j/nutrinube:2.0.0
-    build:
-      context: .
-      dockerfile: Dockerfile
-    container_name: nutri_nube_app
-    ports:
-      - "5000:5000"
-    volumes:
-      - ./src/app:/app
-    environment:
-      - DATABASE_URL=postgresql://pfeiferj:NutriNube@db:5432/flaskdb
-    command: ["flask", "run", "--host=0.0.0.0"]
-    depends_on:
-      - fluentd
-      - db
-    logging:
-      driver: "fluentd"
-      options:
-        fluentd-address: "fluentd:24224"
-        tag: httpd.access
-        fluentd-async-connect: "true"
-        fluentd-retry-wait: 1s
-        fluentd-max-retries: 30
-    networks:
-      - nutri_nube_network
+  services:
+    nutri_nube:
+      image: ghcr.io/pfeifer-j/nutrinube:2.0.0
+      build:
+        context: .
+        dockerfile: Dockerfile
+      container_name: nutri_nube_app
+      ports:
+        - "5000:5000"
+      volumes:
+        - ./src/app:/app
+      environment:
+        - DATABASE_URL=postgresql://pfeiferj:NutriNube@db:5432/flaskdb
+      command: ["flask", "run", "--host=0.0.0.0"]
+      depends_on:
+        - fluentd
+        - db
+      logging:
+        driver: "fluentd"
+        options:
+          fluentd-address: "fluentd:24224"
+          tag: httpd.access
+          fluentd-async-connect: "true"
+          fluentd-retry-wait: 1s
+          fluentd-max-retries: 30
+      networks:
+        - nutri_nube_network
 
-  db:
-    image: postgres:13
-    container_name: nutri_nube_db
-    environment:
-      POSTGRES_USER: pfeiferj
-      POSTGRES_PASSWORD: NutriNube
-      POSTGRES_DB: flaskdb
-    volumes:
-      - nutri_nube_db:/var/lib/postgresql/data
-    networks:
-      - nutri_nube_network
+    db:
+      image: postgres:13
+      container_name: nutri_nube_db
+      environment:
+        POSTGRES_USER: pfeiferj
+        POSTGRES_PASSWORD: NutriNube
+        POSTGRES_DB: flaskdb
+      volumes:
+        - nutri_nube_db:/var/lib/postgresql/data
+      networks:
+        - nutri_nube_network
 
-  fluentd:
-    build: ./fluentd
-    container_name: nutri_nube_logger
-    ports:
-      - "24224:24224"
-      - "24224:24224/udp"
-    volumes:
-      - ./fluentd/conf:/fluentd/etc
-      - nutri_nube_logs:/fluentd/log
-    networks:
-      - nutri_nube_network
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:24224"]
-      interval: 10s
-      timeout: 5s
-      retries: 3
-      start_period: 5s
+    fluentd:
+      build: ./fluentd
+      container_name: nutri_nube_logger
+      ports:
+        - "24224:24224"
+        - "24224:24224/udp"
+      volumes:
+        - ./fluentd/conf:/fluentd/etc
+        - nutri_nube_logs:/fluentd/log
+      networks:
+        - nutri_nube_network
+      healthcheck:
+        test: ["CMD", "curl", "-f", "http://localhost:24224"]
+        interval: 10s
+        timeout: 5s
+        retries: 3
+        start_period: 5s
 
-volumes:
-  nutri_nube_db:
-  nutri_nube_logs:
+  volumes:
+    nutri_nube_db:
+    nutri_nube_logs:
