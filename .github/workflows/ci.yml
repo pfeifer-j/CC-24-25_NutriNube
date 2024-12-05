@@ -11,7 +11,6 @@ on:
 permissions:
   contents: read
   packages: write
-  id-token: write
 
 jobs:
   test:
@@ -45,22 +44,15 @@ jobs:
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v2
 
-    - name: Login to GitHub Container Registry
-      uses: docker/login-action@v2
-      with:
-        username: ${{ github.actor }}
-        password: ${{ secrets.GITHUB_TOKEN }}
-
-    - name: Docker login debug
+    - name: Login to Docker Hub
       run: |
-        docker --version
-        docker info
+        echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
 
     - name: Build Docker image
       run: |
         docker-compose -f docker-compose.yml build 
 
-    - name: Push Docker image to GitHub Packages (GHCR)
+    - name: Push Docker image to Docker Hub
       run: |
         docker push ghcr.io/pfeifer-j/nutrinube:2.0.0
 
@@ -75,11 +67,9 @@ jobs:
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v2
 
-    - name: Login to GitHub Container Registry
-      uses: docker/login-action@v2
-      with:
-        username: ${{ github.actor }}
-        password: ${{ secrets.GITHUB_TOKEN }}
+    - name: Login to Docker Hub
+      run: |
+        echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
 
     - name: Deploy the Docker container
       run: |
