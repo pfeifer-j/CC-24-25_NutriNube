@@ -156,7 +156,7 @@ Firstly, I got the environment up and running. I significantly changed the actua
  ```  
 
 
-2. Generate [requirements.txt](/src/app/requirements.txt):
+2. Generate [requirements.txt](../../requirements.txt):
 
    
 ```
@@ -164,7 +164,7 @@ Firstly, I got the environment up and running. I significantly changed the actua
 ``` 
 
 
-3. Construct a [Dockerfile](/src/app/Dockerfile):
+3. Construct a [Dockerfile](../../Dockerfile):
 
    
 ```dockerfile
@@ -199,7 +199,7 @@ Firstly, I got the environment up and running. I significantly changed the actua
 
 I chose PostgreSQL because I already have experience working with it. It's quite easy to use and robust.
 
-1. Set Up [docker-compose.yml](/src/app/docker-compose.yml):
+1. Set Up [docker-compose.yml](../../docker-compose.yml):
 
    
 ```yaml
@@ -274,7 +274,7 @@ And also:
 ```   
 
 
-3. After updating my [requirements.txt](/src/app/requirements.txt), I ran the Docker Compose:
+3. After updating my [requirements.txt](../../requirements.txt), I ran the Docker Compose:
 
    
 ```bash
