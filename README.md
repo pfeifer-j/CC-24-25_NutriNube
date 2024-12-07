@@ -43,3 +43,15 @@ Milestone 3 centered on designing and implementing a microservice architecture u
 - Refined and expanded test coverage to ensure API reliability.
 
 For detailed descriptions of the methods and configurations employed, refer to the [Milestone 3 Documentation](/documentation/milestone3/milestone3.md).
+
+
+## :pencil2: Milestone 4: Containerization and Cluster Deployment
+
+Milestone 4 focused on further containerizing the application, deploying it as a cluster, and automating its build and deployment processes. The key aspects of this milestone include:
+
+- The `Dockerfile` was improved for the application container, including all dependencies required for the application to run the container image.
+- The `docker-compose.yml` file was alterd to manage a cluster of containers, including the application container, the PostgreSQL database container, and the Fluentd container for logging.
+- The repository is configured to automatically build and deploy the container whenever updates are pushed to GitHub. This process is managed through GitHub Actions.
+- Test were added to ensure that the Docker Compose cluster is correctly built and all containers are running in a healthy state. This test is automated and runs as part of the GitHub Actions pipeline.
+
+For detailed descriptions of the methods and configurations employed, refer to the [Milestone 4 Documentation](/documentation/milestone4/milestone4.md).
