@@ -265,7 +265,7 @@ The CI pipeline ensures that the application code is tested, built, and then dep
 
 ### Overview
 
-My tests can be found under [/src/tests/test_cluster.py](/src/tests/test_cluster.py). These tests are designed to ensure the proper functionality of the containerized application within the Docker Compose cluster. They check if the Docker Compose setup is correctly built, if all the containers are running, and if the services are healthy. The tests verify that the cluster is properly initialized and that all its components are working as expected before the application is deployed or pushed further into production.
+My tests can be found under [/src/tests/test_ghcr.py](../../src/tests/test_ghcr.py). These tests are designed to ensure the proper functionality of the containerized application within the Docker Compose cluster. They check if the Docker Compose setup is correctly built, if all the containers are running, and if the services are healthy. The tests verify that the cluster is properly initialized and that all its components are working as expected before the application is deployed or pushed further into production.
 
 ### Test 1: `test_cluster_build`
 
