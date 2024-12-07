@@ -8,7 +8,7 @@ This is the repository for the project of the Cloud Computing course.
 
 ## :pencil2: Milestone 1: Problem Description
 
-The primary objective of this project is to develop a fitness tracker that enables users to monitor their physical activity and track their food consumption. The application will help users achieve their health and fitness goals by providing detailed insights into their daily caloric intake and macronutrient distribution (proteins, fats, and carbohydrates). 
+The primary objective of this project was to develop a fitness tracker that enables users to monitor their physical activity and track their food consumption. The application will help users achieve their health and fitness goals by providing detailed insights into their daily caloric intake and macronutrient distribution (proteins, fats, and carbohydrates). 
 
 Users will be able to:
 
@@ -16,7 +16,7 @@ Users will be able to:
 - Track physical activities and calculate calories burned based on various exercises.
 - Set personalized health and fitness goals, allowing the app to provide tailored recommendations and feedback.
 
-Using the following link you can access the [Milestone 1 Documentation](/documentation/milestone1/milestone1.md) where the project logic is explained.
+Under [Milestone 1 Documentation](/documentation/milestone1/milestone1.md) the project logic is explained.
 
 
 ## :pencil2: Milestone 2: Continuous Integration and Deployment

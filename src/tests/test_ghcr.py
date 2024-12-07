@@ -22,23 +22,18 @@ def test_health_check():
     """
     Test that all services in the Docker Compose cluster report as healthy.
     """
-    max_retries = 6  # Maximum retries (e.g., 6 retries x 10 seconds = 60 seconds max wait)
-    wait_time = 10   # Wait time between retries in seconds
+    max_retries = 3
+    wait_time = 5
 
     for attempt in range(max_retries):
-        # Run `docker-compose ps` to check the container status
+
         result = subprocess.run(["docker-compose", "ps"], capture_output=True, text=True)
         assert result.returncode == 0, f"Failed to retrieve container statuses: {result.stderr}"
-
-        # Print output for debugging purposes
-        print(result.stdout)
-
-        # Check if all containers are healthy
+        
         if "healthy" in result.stdout:
-            return  # Success: at least one container is healthy
+            return
         
         print(f"Attempt {attempt + 1}/{max_retries}: Waiting for containers to become healthy...")
         time.sleep(wait_time)
-
-    # If we reach here, it means the containers never became healthy
+        
     assert "healthy" in result.stdout, f"Some containers are not healthy after {max_retries * wait_time} seconds"
