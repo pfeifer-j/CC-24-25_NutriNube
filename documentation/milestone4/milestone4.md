@@ -7,7 +7,7 @@ Version 2.1.0
 
 ## Description of the Milestone
 
-In this milestone, the application is containerized using Docker, enabling easier deployment and scalability. A few of these steps have already been performed in earlier milestones but I will summarize it for this Milestone again. A `Dockerfile` is created for the application, and the containers are orchestrated using a `docker-compose.yml` file. The Docker containers are configured, built, and uploaded to GitHub Container Registry (GHCR), with an automated build process set up using GitHub Actions. Additionally, a test to validate the functionality of the containerized cluster is implemented. The goal of this milestone is to ensure the application can be deployed in a containerized environment with automatic updates and proper configuration.
+In this milestone, the application is containerized using Docker, enabling easier deployment and scalability. A few of these steps have already been performed in [the previous milestones](/documentation/milestone2/milestone2.md), but I will summarize it for this milestone again. A `Dockerfile` is created for the application, and the containers are orchestrated using a `docker-compose.yml` file. The Docker containers are configured, built, and uploaded to GitHub Container Registry (GHCR), with an automated build process set up using GitHub Actions. Additionally, a test to validate the functionality of the containerized cluster is implemented. The goal of this milestone is to ensure the application can be deployed in a containerized environment with automatic updates and proper configuration.
 
 ---
 
@@ -152,7 +152,7 @@ Once the secret is added, it can be securely referenced in GitHub Actions workfl
 ### 2.2 Updating CI.yml
 
 
-The CI pipeline is defined in the [ci.yml](.github/workflows/ci.yml) file. This configuration sets up a two-job pipeline: **test** and **build_and_push**. The pipeline is triggered on `push` or `pull_request` events to the `main` branch. The jobs are described as follows:
+The CI pipeline is defined in the [ci.yml](../../.github/workflows/ci.yml) file. This configuration sets up a two-job pipeline: **test** and **build_and_push**. The pipeline is triggered on `push` or `pull_request` events to the `main` branch. The jobs are described as follows:
 
 ```yaml
 name: CI
@@ -265,7 +265,7 @@ The CI pipeline ensures that the application code is tested, built, and then dep
 
 ### Overview
 
-The tests defined in `tests/test_cluster.py` are designed to ensure the proper functionality of the containerized application within the Docker Compose cluster. They check if the Docker Compose setup is correctly built, if all the containers are running, and if the services are healthy. The tests verify that the cluster is properly initialized and that all its components are working as expected before the application is deployed or pushed further into production.
+My tests can be found under [/src/tests/test_cluster.py](/src/tests/test_cluster.py). These tests are designed to ensure the proper functionality of the containerized application within the Docker Compose cluster. They check if the Docker Compose setup is correctly built, if all the containers are running, and if the services are healthy. The tests verify that the cluster is properly initialized and that all its components are working as expected before the application is deployed or pushed further into production.
 
 ### Test 1: `test_cluster_build`
 
