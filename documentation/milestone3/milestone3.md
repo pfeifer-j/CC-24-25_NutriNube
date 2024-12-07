@@ -136,7 +136,7 @@ except ValidationError as err:
 
 To use `Fluent`, it has to be configured and a Dockerfile has to be added.
 
-Content of [fluent.conf](/src/app/fluentd/conf/fluent.conf):
+Content of [fluent.conf](../../fluentd/conf/fluent.conf):
 ```plaintext
 # fluentd/conf/fluent.conf
 <source>
@@ -171,7 +171,7 @@ Content of [fluent.conf](/src/app/fluentd/conf/fluent.conf):
 
 ```
 
-Content of [fluent.conf](/src/app/fluentd/Dockerfile):
+Content of [fluent.conf](../../fluentd/Dockerfile):
 ```yaml
 # fluentd/Dockerfile
 FROM fluent/fluentd:v1.12.0-debian-1.0
@@ -183,7 +183,7 @@ COPY conf/fluent.conf /fluentd/etc/
 CMD ["fluentd", "-c", "/fluentd/etc/fluent.conf"]
 ```
 
-The [docker-compose.yml](/src/app/docker-compose.yml) has been adjusted to run `Fluent` in a separate container while defining the network structure and its own volume:
+The [docker-compose.yml](../../docker-compose.yml) has been adjusted to run `Fluent` in a separate container while defining the network structure and its own volume:
 
 ```yaml
 # docker-compose.yml
@@ -248,7 +248,7 @@ volumes:
   nutri_nube_logs:
 ```
 
-Additionally, the [requirements.txt](/src/app/requirements.txt) was updated:
+Additionally, the [requirements.txt](../../requirements.txt) was updated:
 ```plaintext
 Flask
 Flask-Cors
