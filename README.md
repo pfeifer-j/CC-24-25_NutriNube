@@ -55,3 +55,15 @@ Milestone 4 focused on further containerizing the application, deploying it as a
 - Test were added to ensure that the Docker Compose cluster is correctly built and all containers are running in a healthy state. This test is automated and runs as part of the GitHub Actions pipeline.
 
 For detailed descriptions of the methods and configurations employed, refer to the [Milestone 4 Documentation](/documentation/milestone4/milestone4.md).
+
+
+## :pencil2: Milestone 5: Deployment on a PaaS
+
+Milestone 5 focused on deploying the NutriNube application to the cloud using Render.com, a PaaS chosen for its easy GitHub integration and free service. Key aspects of milestone include:
+
+- Automatic deployment upon each commit via Render's automatic deployment.
+- Minor configuration adjustments to fit deployment requirements.
+- Ensuring application functionality in the cloud.
+- Performance testing remains a future task.
+
+For detailed explanations, see the [Milestone 5 Documentation](/documentation/milestone5/milestone5.md)..
