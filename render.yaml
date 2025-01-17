@@ -9,7 +9,7 @@ services:
       - 5000
     envVars:
       - key: DATABASE_URL
-        value: postgresql://pfeiferj:NutriNube@db:5432/flaskdb
+        value: postgresql://pfeiferj:NutriNube@nutri-nube-db:5432/flaskdb
     healthCheck:
       path: /
       protocol: http
@@ -18,18 +18,6 @@ services:
       image: ghcr.io/pfeifer-j/nutrinube:2.0.0
       volumes:
         - ./src/app:/app
-
-  - type: database
-    name: nutri-nube-db
-    env: postgres
-    version: "13"
-    envVars:
-      - key: POSTGRES_USER
-        value: pfeiferj
-      - key: POSTGRES_PASSWORD
-        value: NutriNube
-      - key: POSTGRES_DB
-        value: flaskdb
 
   - type: worker
     name: fluentd-logger
@@ -52,6 +40,17 @@ services:
     ports:
       - 24224
 
+databases:
+  - name: nutri-nube-db
+    type: postgres
+    plan: free  # You can choose a different plan based on your needs
+    envVars:
+      - key: POSTGRES_USER
+        value: pfeiferj
+      - key: POSTGRES_PASSWORD
+        value: NutriNube
+      - key: POSTGRES_DB
+        value: flaskdb
+
 volumes:
-  nutri_nube_db:
-  nutri_nube_logs:
+  nutri_nube_logs:  # This is the volume for the fluentd logs
