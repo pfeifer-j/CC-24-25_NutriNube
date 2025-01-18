@@ -1,0 +1,56 @@
+services:
+  - type: web
+    name: nutri-nube-app
+    env: docker
+    dockerfilePath: Dockerfile
+    buildCommand: ""
+    startCommand: flask run --host=0.0.0.0
+    ports:
+      - 5000
+    envVars:
+      - key: DATABASE_URL
+        value: postgresql://pfeiferj:NutriNube@nutri-nube-db:5432/flaskdb
+    healthCheck:
+      path: /
+      protocol: http
+      port: 5000
+    docker:
+      image: ghcr.io/pfeifer-j/nutrinube:2.0.0
+      volumes:
+        - ./src/app:/app
+
+  - type: worker
+    name: fluentd-logger
+    env: docker
+    dockerfilePath: ./fluentd/Dockerfile
+    buildCommand: ""
+    startCommand: fluentd -c /fluentd/etc/fluent.conf
+    ports:
+      - 24224
+    volumes:
+      - ./fluentd/conf:/fluentd/etc
+      - nutri_nube_logs:/fluentd/log
+
+  - type: worker
+    name: fluentd
+    env: docker
+    dockerfilePath: ./fluentd/Dockerfile
+    buildCommand: ""
+    startCommand: fluentd -c /fluentd/etc/fluent.conf
+    ports:
+      - 24224
+
+databases:
+  - name: nutri-nube-db
+    type: postgres
+    plan: free  # You can choose a different plan based on your needs
+    envVars:
+      - key: POSTGRES_USER
+        value: pfeiferj
+      - key: POSTGRES_PASSWORD
+        value: NutriNube
+      - key: POSTGRES_DB
+        value: flaskdb
+
+volumes:
+  nutri_nube_logs:  # This is the volume for the fluentd logs
