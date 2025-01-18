@@ -1,0 +1,9 @@
+# app/requrements.txt
+Flask
+Flask-Cors
+Flask-SQLAlchemy
+flask-marshmallow
+psycopg2-binary
+fluent-logger
+marshmallow
+marshmallow-sqlalchemy
