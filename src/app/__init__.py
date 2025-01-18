@@ -24,7 +24,7 @@ def create_app():
     })
     
     # Configure the database
-    app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'sqlite:///default.db')
+    app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'postgresql://nutri_nube_db_14qz_user:TuDvOMxR0YzzEUz84OzGs4DU3CwL0hln@dpg-cu58hnrqf0us73cparcg-a/nutri_nube_db_14qz')
     db.init_app(app)
 
     # Import models
@@ -70,19 +70,27 @@ def setup_logging(app):
                 record.msg = {'message': str(record.msg)}
             return True
 
-    # Create a FluentHandler for Fluentd
-    fluent_handler = FluentHandler('app', host='localhost', port=24224)
-    fluent_handler.setFormatter(logging.Formatter())
-    fluent_handler.addFilter(StructuringFilter())
+    # Set up Fluentd logging handler
+    try:
+        fluent_handler = FluentHandler('app', host=os.environ.get('FLUENTD_HOST', 'localhost'), port=24224)
+        fluent_handler.setFormatter(logging.Formatter())
+        fluent_handler.addFilter(StructuringFilter())
+        app.logger.addHandler(fluent_handler)
+        app.logger.info({
+            'event': 'fluentd_setup',
+            'message': 'Fluentd logger setup successfully!'
+        })
+    except Exception as e:
+        app.logger.warning({
+            'event': 'fluentd_setup',
+            'message': f"Could not connect to Fluentd: {e}"
+        })
 
-    # Attach the handler to the app logger
-    app.logger.addHandler(fluent_handler)
-
-    # Create a console handler for local debugging
+    # Set up a console handler for local debugging and fallback logging
     console_handler = logging.StreamHandler()
     console_handler.setFormatter(logging.Formatter('[%(asctime)s] %(levelname)s in %(module)s: %(message)s'))
-    console_handler.addFilter(StructuringFilter()) 
+    console_handler.addFilter(StructuringFilter())
     app.logger.addHandler(console_handler)
 
-    # Set the logger level
+    # Set the log level for the app
     app.logger.setLevel(logging.DEBUG)

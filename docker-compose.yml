@@ -15,7 +15,7 @@
       volumes:
         - ./src/app:/app
       environment:
-        - DATABASE_URL=postgresql://pfeiferj:NutriNube@db:5432/flaskdb
+        - DATABASE_URL=postgresql://nutri_nube_db_14qz_user:TuDvOMxR0YzzEUz84OzGs4DU3CwL0hln@db:5432/flaskdb
       command: ["flask", "run", "--host=0.0.0.0"]
       depends_on:
         - fluentd
@@ -41,8 +41,8 @@
       image: postgres:13
       container_name: nutri_nube_db
       environment:
-        POSTGRES_USER: pfeiferj
-        POSTGRES_PASSWORD: NutriNube
+        POSTGRES_USER: nutri_nube_db_14qz_user
+        POSTGRES_PASSWORD: TuDvOMxR0YzzEUz84OzGs4DU3CwL0hln
         POSTGRES_DB: flaskdb
       volumes:
         - nutri_nube_db:/var/lib/postgresql/data

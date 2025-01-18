@@ -1,0 +1,12 @@
+services:
+  - type: web
+    runtime: docker
+    name: web
+    dockerfilePath: ./fluentd/Dockerfile
+    startCommand: ["fluentd", "-c", "/fluentd/etc/fluent.conf"]
+    healthCheckPath: /
+    plan: standard
+    autoDeploy: true
+    ingress:
+      type: web
+      externalPort: 24224
