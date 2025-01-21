@@ -171,7 +171,7 @@ Content of [fluent.conf](../../fluentd/conf/fluent.conf):
 
 ```
 
-Content of [fluent.conf](../../fluentd/Dockerfile):
+Content of [fluentd/Dockerfile](../../fluentd/Dockerfile):
 ```yaml
 # fluentd/Dockerfile
 FROM fluent/fluentd:v1.12.0-debian-1.0
