@@ -1,3 +1,4 @@
+<!-- summary.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -26,16 +27,14 @@
                     <li><a href="/activities">Activities</a></li>
                     <li><a href="/summary">Summary</a></li>
                 </ul>
-
                 <input type="date" id="date-picker">
-
                 <form id="logout-form" method="post">
                     <button type="submit" id="logout-button">Logout</button>
                 </form>
             </div>
         </nav>
     </header>
-
+    
     <div class="container">
         <!-- Summary Section -->
         <section>
@@ -56,17 +55,16 @@
             </div>
         </section>
     </div>
-
     <div id="toast-container"></div>
 
     <script>
         $(document).ready(function() {
-            // Fetch data from your server or API
+            // Fetch summary data from the API
             $.ajax({
                 url: '/api/summary-data', // Replace with your API endpoint
                 method: 'GET',
                 success: function(data) {
-                    // Update summary values
+                    // Update summary stats
                     $('#total-calories-consumed').text(data.totalCaloriesConsumed);
                     $('#total-protein-consumed').text(data.totalProtein);
                     $('#total-fat-consumed').text(data.totalFat);
@@ -94,9 +92,8 @@
                                 },
                                 tooltip: {
                                     callbacks: {
-                                        label: function(tooltipItem) {
-                                            const value = tooltipItem.raw;
-                                            return `${value} kcal`;
+                                        label: function(context) {
+                                            return `${context.raw} kcal`;
                                         }
                                     }
                                 }
@@ -124,9 +121,8 @@
                                 },
                                 tooltip: {
                                     callbacks: {
-                                        label: function(tooltipItem) {
-                                            const value = tooltipItem.raw;
-                                            return `${value} g`;
+                                        label: function(context) {
+                                            return `${context.raw} g`;
                                         }
                                     }
                                 }
