@@ -1,4 +1,3 @@
-<!-- summary.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,17 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NutriNube - Food & Fitness Tracker</title>
     <link rel="stylesheet" href="/static/styles.css">
-    <link rel="icon" type="image/png" href="/img/favicon-96x96.png" sizes="96x96">
-    <link rel="icon" type="image/svg+xml" href="/img/favicon.svg">
-    <link rel="shortcut icon" href="/img/favicon.ico" type="image/x-icon">
-    <link rel="apple-touch-icon" sizes="180x180" href="/img/apple-touch-icon.png">
-    <link rel="manifest" href="/img/site.webmanifest">    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="icon" type="image/png" href="/static/img/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/svg+xml" href="/static/img/favicon.svg">
+    <link rel="shortcut icon" href="/static/img/favicon.ico" type="image/x-icon">
+    <link rel="apple-touch-icon" sizes="180x180" href="/static/img/apple-touch-icon.png">
+    <link rel="manifest" href="/static/img/site.webmanifest">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 <body>
-    <script src="/static/app.js"></script>
-    
     <header>
         <h1>NutriNube - Your Summary</h1>
         <nav>
@@ -37,72 +35,125 @@
             </div>
         </nav>
     </header>
-    
+
     <div class="container">
         <!-- Summary Section -->
         <section>
             <h2>Summary</h2>
-            <canvas id="summary-chart" width="400" height="400"></canvas>
+            <p>Calories Consumed: <span id="total-calories-consumed">0</span></p>
+            <p>Protein Consumed: <span id="total-protein-consumed">0</span> grams</p>
+            <p>Fat Consumed: <span id="total-fat-consumed">0</span> grams</p>
+            <p>Carbs Consumed: <span id="total-carbs-consumed">0</span> grams</p>
+            <p>Calories Burned: <span id="total-calories-burned">0</span></p>
+            <p>Net Calories: <span id="net-calories">0</span></p>
+            <p>Calories Remaining: <span id="calories-remaining">2000</span></p>
+
+            <div class="chart-container">
+                <canvas id="calorie-distribution-chart"></canvas>
+            </div>
+            <div class="chart-container">
+                <canvas id="macronutrient-breakdown-chart"></canvas>
+            </div>
         </section>
     </div>
+
     <div id="toast-container"></div>
 
     <script>
         $(document).ready(function() {
-            // Fetch data from your server
-            const summaryData = {
-                totalCaloriesConsumed: parseInt($("#total-calories-consumed").text()),
-                totalProtein: parseInt($("#total-protein-consumed").text()),
-                totalFat: parseInt($("#total-fat-consumed").text()),
-                totalCarbs: parseInt($("#total-carbs-consumed").text()),
-                totalCaloriesBurned: parseInt($("#total-calories-burned").text())
-            };
+            // Fetch data from your server or API
+            $.ajax({
+                url: '/api/summary-data', // Replace with your API endpoint
+                method: 'GET',
+                success: function(data) {
+                    // Update summary values
+                    $('#total-calories-consumed').text(data.totalCaloriesConsumed);
+                    $('#total-protein-consumed').text(data.totalProtein);
+                    $('#total-fat-consumed').text(data.totalFat);
+                    $('#total-carbs-consumed').text(data.totalCarbs);
+                    $('#total-calories-burned').text(data.totalCaloriesBurned);
+                    $('#net-calories').text(data.netCalories);
+                    $('#calories-remaining').text(data.caloriesRemaining);
 
-            // Calculate net calories
-            summaryData.netCalories = summaryData.totalCaloriesConsumed - summaryData.totalCaloriesBurned;
-
-            // Render the chart
-            const ctx = document.getElementById('summary-chart').getContext('2d');
-            const chart = new Chart(ctx, {
-                type: 'doughnut',
-                data: {
-                    labels: ['Calories Consumed', 'Calories Burned', 'Net Calories'],
-                    datasets: [{
-                        label: 'Calorie Intake',
-                        data: [summaryData.totalCaloriesConsumed, summaryData.totalCaloriesBurned, summaryData.netCalories],
-                        backgroundColor: ['#f1c40f', '#e74c3c', '#2ecc71']
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    plugins: {
-                        legend: {
-                            display: true,
+                    // Calorie Distribution Chart
+                    const calorieCtx = document.getElementById('calorie-distribution-chart').getContext('2d');
+                    new Chart(calorieCtx, {
+                        type: 'pie',
+                        data: {
+                            labels: ['Calories Consumed', 'Calories Burned'],
+                            datasets: [{
+                                data: [data.totalCaloriesConsumed, data.totalCaloriesBurned],
+                                backgroundColor: ['#3498db', '#e74c3c'],
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            plugins: {
+                                legend: {
+                                    position: 'top',
+                                },
+                                tooltip: {
+                                    callbacks: {
+                                        label: function(tooltipItem) {
+                                            const value = tooltipItem.raw;
+                                            return `${value} kcal`;
+                                        }
+                                    }
+                                }
+                            }
                         }
-                    }
+                    });
+
+                    // Macronutrient Breakdown Chart
+                    const macroCtx = document.getElementById('macronutrient-breakdown-chart').getContext('2d');
+                    new Chart(macroCtx, {
+                        type: 'bar',
+                        data: {
+                            labels: ['Protein', 'Fat', 'Carbs'],
+                            datasets: [{
+                                label: 'Grams',
+                                data: [data.totalProtein, data.totalFat, data.totalCarbs],
+                                backgroundColor: ['#2ecc71', '#f1c40f', '#9b59b6'],
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            plugins: {
+                                legend: {
+                                    display: false,
+                                },
+                                tooltip: {
+                                    callbacks: {
+                                        label: function(tooltipItem) {
+                                            const value = tooltipItem.raw;
+                                            return `${value} g`;
+                                        }
+                                    }
+                                }
+                            },
+                            scales: {
+                                x: {
+                                    title: {
+                                        display: true,
+                                        text: 'Macronutrients'
+                                    }
+                                },
+                                y: {
+                                    title: {
+                                        display: true,
+                                        text: 'Grams'
+                                    },
+                                    beginAtZero: true
+                                }
+                            }
+                        }
+                    });
+                },
+                error: function(error) {
+                    console.error('Error fetching summary data:', error);
                 }
             });
-
-            // Update chart with API data if necessary
-            function updateSummaryData(newData) {
-                chart.data.datasets[0].data = [
-                    newData.totalCaloriesConsumed, 
-                    newData.totalCaloriesBurned,
-                    newData.netCalories
-                ];
-                chart.update();
-            }
-
-            // Example of calling the update function if you're fetching data via AJAX
-            // $.ajax({
-            //     url: '/your-api-endpoint',
-            //     type: 'GET',
-            //     success: function(newData) {
-            //         updateSummaryData(newData);
-            //     }
-            // });
         });
     </script>
-
 </body>
 </html>
