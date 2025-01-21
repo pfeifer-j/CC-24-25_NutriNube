@@ -24,7 +24,7 @@ def create_app():
     })
     
     # Configure the database
-    app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'postgresql://nutri_nube_db_14qz_user:TuDvOMxR0YzzEUz84OzGs4DU3CwL0hln@dpg-cu58hnrqf0us73cparcg-a/nutri_nube_db_14qz')
+    app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
     db.init_app(app)
 
     # Import models

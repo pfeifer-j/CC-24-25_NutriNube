@@ -8,17 +8,23 @@ def init_navigation_routes(app):
 
     # Route to serve the home page of the application
     @app.route('/')
-    @login_required
     def home():
         try:
-            # Log access to the route
-            current_app.logger.info({
-                'event': 'route_access',
-                'route': '/',
-                'username': session.get('username', 'anonymous'),
-                'ip': request.remote_addr
-            })
-            return render_template('dashboard.html')
+             # Check if the user is logged in
+            if 'username' in session:
+                # Log access to the route for logged-in users
+                current_app.logger.info({
+                    'event': 'route_access',
+                    'route': '/',
+                    'username': session['username'],
+                    'ip': request.remote_addr
+                })
+                
+                # Render the dashboard for logged-in users
+                return render_template('dashboard.html')
+            else:
+                # Redirect guests to the login page
+                return redirect(url_for('login'))
         except Exception as e:
             # Log any exceptions that occur and return an error message
             current_app.logger.error({
