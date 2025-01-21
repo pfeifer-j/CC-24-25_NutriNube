@@ -7,66 +7,101 @@ Version 3.0.0
 
 ## Description of the Milestone
 
-The aim of this milestone is to deploy the NutriNube application to the cloud using a Platform as a Service (PaaS) to understand and utilize techniques for cloud deployment from a web repository. Render.com was selected as the PaaS due to its free tier and simplicity. This milestone focuses on connecting the project repository to Render.com for seamless deployments.
+The goal of this milestone is to deploy the NutriNube application to the cloud using a Platform as a Service (PaaS). Here, [Render](https://render.com) was selected as the PaaS due to its free tier and simplicity. This milestone focuses on connecting the project repository to [Render](https://render.com) for seamless deployments.
 
 ---
 
-## 1. PaaS Selection and Justification (2 points)
+## 1. PaaS Selection and Justification
 
-Render.com was chosen for the deployment of NutriNube primarily because:
+[Render](https://render.com) was chosen for the deployment of NutriNube primarily because:
 
-- Cost-Effective: Offers a free tier that fits the project requirements without incurring additional costs.
-- Ease of Use: Simplifies the deployment process by directly connecting to GitHub repositories, automating many tasks that typically require manual configuration. 
-
-The selection criteria emphasized ease of integration with GitHub and straightforward deployment capabilities, making Render.com an apt choice for this milestone.
-
----
-
-## 2. Deployment Process (2 points)
-
-2.1 GitHub Integration
-
-Render.com allows seamless integration with GitHub, enabling automatic deployment of the application with every new commit to the specified branch. Here are the steps followed:
-
-- Connect Render.com account to the NutriNube GitHub repository.
-- Configure Render.com to automatically deploy the application upon changes to the repository, utilizing the automatic deployment feature. 
-
-#Additional Configuration
-
-The only configuration change required in `app.py` was adding:
-python
-port = int(os.getenv('PORT', 5000))
-
-This change ensures that the application listens on the correct port as specified by Render during runtime.
-
-2.2 Automatic Deployment
-
-Render.com’s default setting includes:
-- Automatic deployment of services from a Git-backed repository when changes are pushed or merged to the linked branch. This feature was utilized for deploying NutriNube.
-- Reference documentation: Render.com Automatic Deploys.
-
-No additional configurations were necessary beyond this setup.
+- It is cost-effective and offers a free tier that fits the project requirements without incurring additional costs.
+- It simplifies the deployment process by directly connecting to GitHub repositories, automating many tasks that typically require manual configuration.
+- Allows for automatic deployment with commits on the linked GitHub repository.
 
 ---
 
-## 3. Deployment Configuration (2 points)
+## 2. Deployment Process
 
-Since Render.com manages deployment, the majority of configurations are handled via their platform dashboard. Yet, the key steps are summarized within the project's README to ensure reproducibility for authorized users.
+[Render](https://render.com) allows simple integration with GitHub, with automatic deployment of the application with every new commit to the specified branch. To get the application running, the following steps are necessary:
 
-The setup process allows for direct deployment from the GitHub repository, ensuring that any push or merge to the main branch triggers a new deployment cycle on Render.com.
+1. Create an account on [Render](https://render.com).
+2. Add a new workspace with a project. In my case, I added the workspace `CloudComputing` and the project `NutriNube`.
+3. Within the project, create a new environment. I called mine `nutri_nube_env`.
+4. In the newly created environment, web services and databases can be added.
+
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/5aba4326-a46c-4814-9f28-cbe0113a399b">
+</p>
+
+5. Add a new database.
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/f657cba3-9a75-4394-aac6-fd72f98479ba">
+</p>
+
+6. Select the free tier and the region `Frankfurt`. I named my database `nutri_nube_db`. On the configuration page, all the necessary URIs, passwords, and usernames must be added as environment variables.
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/eb99d5e7-ddaf-48a2-8a46-1fcab64a9752">
+</p>
+
+7. Add the necessary environment variables for the database and the `flask` application.
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/648fe8fd-3deb-4c99-bcf4-63c6710d0f9c">
+</p>
+
+8. Now select a web service.
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/381b0130-883a-4e22-a516-583424b817f5">
+</p>
+
+9. Add the repository.
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/a3577f2e-7822-47ac-80c8-3ed8f30c587e">
+</p>
+
+10. Select `Frankfurt` as the region and the free tier.
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/84cbcff7-8aec-49ff-a1d8-ec70c843b1b1">
+</p>
+
+11. Activate automatic deployment on changes to the repository (this setting is usually on by default).
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/19028c99-8a13-41ba-adf6-cd020a814ca0">
+</p>
+
+12. Finally, deploy the application.
+
+### Drawbacks
+Sadly, I was not able to get my logging container to run in the [Render](https://render.com) environment, since it requires a persistent storage volume to store the logs. However, this is not a big deal since my logger now just outputs the logs to the [Render](https://render.com) logging system where they are stored instead. So I have logging, but not by the use of `fluent` but the [Render](https://render.com) system. Locally, my logger functions perfectly, but I am not willing to pay the monthly subscription price for Render to enable the logging system in the deployed version as well.
+
+### Additional Configuration
+
+The only configuration change required in `app.py` and `__init__.py` was changing the port and loading the database address from [Render](https://render.com) instead of hardcoding it.
+
+```python
+port = int(os.getenv('PORT', 8000))
+...
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
+```
 
 ---
 
-## 4. Application Deployment and Functionality (3 points)
+Since I also implemented a frontend, which was not required, I added favicons and DNS records so that I can reach my webpage using my own domain. The application NutriNube is now available on:
 
-The application was successfully deployed on Render.com, and its functionality verified. The deployment process mirrors the local execution setup, ensuring consistent operation across environments.
+  1. [https://nutri-nube-docker.onrender.com](https://nutri-nube-docker.onrender.com)
+  2. [https://silbador.de](https://silbador.de)
 
-A URL pointing to the deployed application on Render.com is included in the project's main README file.
+Since the services idle when not in use, the first connection can take 1-2 minutes for the services to start.
 
 ---
 
-## 5. Performance Testing (1 point)
+## 5. Performance Testing
+A small performance test was also a task of this milestone. I manually clicked around and opened multiple sessions without experiencing any kind of performance drop.
 
-Performance Testing
+As a more scientific approach, I tested the page using `Google Lighthouse` and got good scores:
 
-#todo
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/7087728e-5ac2-47b5-9590-1b5faa881e4a">
+</p>
+
+So, the website is up and running and works quite nicely. 
