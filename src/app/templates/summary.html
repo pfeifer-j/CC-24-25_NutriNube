@@ -7,6 +7,7 @@
     <title>NutriNube - Food & Fitness Tracker</title>
     <link rel="stylesheet" href="/static/styles.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 <body>
@@ -37,15 +38,67 @@
         <!-- Summary Section -->
         <section>
             <h2>Summary</h2>
-            <p>Calories Consumed: <span id="total-calories-consumed">0</span></p>
-            <p>Protein Consumed: <span id="total-protein-consumed">0</span> grams</p>
-            <p>Fat Consumed: <span id="total-fat-consumed">0</span> grams</p>
-            <p>Carbs Consumed: <span id="total-carbs-consumed">0</span> grams</p>
-            <p>Calories Burned: <span id="total-calories-burned">0</span></p>
-            <p>Net Calories: <span id="net-calories">0</span></p>
-            <p>Calories Remaining: <span id="calories-remaining">2000</span></p>
+            <canvas id="summary-chart" width="400" height="400"></canvas>
         </section>
     </div>
     <div id="toast-container"></div>
+
+    <script>
+        $(document).ready(function() {
+            // Fetch data from your server
+            const summaryData = {
+                totalCaloriesConsumed: parseInt($("#total-calories-consumed").text()),
+                totalProtein: parseInt($("#total-protein-consumed").text()),
+                totalFat: parseInt($("#total-fat-consumed").text()),
+                totalCarbs: parseInt($("#total-carbs-consumed").text()),
+                totalCaloriesBurned: parseInt($("#total-calories-burned").text())
+            };
+
+            // Calculate net calories
+            summaryData.netCalories = summaryData.totalCaloriesConsumed - summaryData.totalCaloriesBurned;
+
+            // Render the chart
+            const ctx = document.getElementById('summary-chart').getContext('2d');
+            const chart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Calories Consumed', 'Calories Burned', 'Net Calories'],
+                    datasets: [{
+                        label: 'Calorie Intake',
+                        data: [summaryData.totalCaloriesConsumed, summaryData.totalCaloriesBurned, summaryData.netCalories],
+                        backgroundColor: ['#f1c40f', '#e74c3c', '#2ecc71']
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            display: true,
+                        }
+                    }
+                }
+            });
+
+            // Update chart with API data if necessary
+            function updateSummaryData(newData) {
+                chart.data.datasets[0].data = [
+                    newData.totalCaloriesConsumed, 
+                    newData.totalCaloriesBurned,
+                    newData.netCalories
+                ];
+                chart.update();
+            }
+
+            // Example of calling the update function if you're fetching data via AJAX
+            // $.ajax({
+            //     url: '/your-api-endpoint',
+            //     type: 'GET',
+            //     success: function(newData) {
+            //         updateSummaryData(newData);
+            //     }
+            // });
+        });
+    </script>
+
 </body>
 </html>
