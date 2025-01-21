@@ -1,5 +1,6 @@
 # app/routes/routes_summary.py
-from flask import jsonify, request, session, current_app
+from flask import jsonify, redirect, url_for, request, jsonify, session, current_app
+
 from ..models.models import User, FoodLog, FitnessLog
 from .. import db
 from .routes_auth import login_required
@@ -10,18 +11,22 @@ def init_summary_routes(app):
 
     # Route to retrieve a daily summary of user activities and consumption
     @app.route('/daily-summary', methods=['GET'])
-    @login_required
     def daily_summary():
         try:
-            # Retrieve the user from the session and ensure they exist
+            # Check if the user is logged in
             username = session.get('username')
+            if not username:
+                # Redirect to login if the user is not authenticated
+                return redirect(url_for('login'))
+            
+            # Retrieve the user from the database
             user = User.query.filter_by(username=username).first()
-
+            
             # Get the date from request parameters or default to today's date
             date = request.args.get('date', datetime.today().strftime('%Y-%m-%d'))
 
             if not user:
-                # Log an error if the user is not found
+                # Log an error if the user object is not found (unexpected state)
                 current_app.logger.error({
                     'event': 'daily_summary_failed',
                     'message': 'User not found',
