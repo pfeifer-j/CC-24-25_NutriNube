@@ -93,4 +93,4 @@ def setup_logging(app):
     app.logger.addHandler(console_handler)
 
     # Set the log level for the app
-    app.logger.setLevel(logging.DEBUG)
+    app.logger.setLevel(logging.INFO)

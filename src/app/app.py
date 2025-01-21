@@ -8,8 +8,8 @@ app = create_app()
 if __name__ == '__main__':
     logging.basicConfig(level=logging.INFO)
     logging.info("Starting the Flask application")
-    port = int(os.getenv('PORT', 5000))
+    port = int(os.getenv('PORT', 8000))
     try:
-        app.run(debug=True)
+        app.run(debug=False)
     finally:
         logging.info("Shutting down the Flask application")
