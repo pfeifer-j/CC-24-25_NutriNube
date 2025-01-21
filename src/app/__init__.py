@@ -24,7 +24,7 @@ def create_app():
     })
     
     # Configure the database
-    app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
+    app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'sqlite:///default.db')
     db.init_app(app)
 
     # Import models
