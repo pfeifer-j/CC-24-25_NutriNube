@@ -11,7 +11,7 @@ In this milestone, the application is containerized using Docker, enabling easie
 
 ---
 
-## 1. Container Cluster Structure Documentation (1.5 points)
+## 1. Container Cluster Structure Documentation
 
 ### 1.1 Cluster Overview
 

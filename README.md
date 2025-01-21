@@ -2,19 +2,19 @@
 
 ## Cloud Computing: Fundamentos e Infraestructuras - Prácticas
 
-This is the repository for the project of the Cloud Computing course.
+This is the repository for the project of the Cloud Computing course of the Universidad de Granada.
 
 ## Project (Laboratory Practices)
 
 ## :pencil2: Milestone 1: Problem Description
 
-The primary objective of this project was to develop a fitness tracker that enables users to monitor their physical activity and track their food consumption. The application will help users achieve their health and fitness goals by providing detailed insights into their daily caloric intake and macronutrient distribution (proteins, fats, and carbohydrates). 
+The primary objective of this project is to develop a fitness tracker that enables users to monitor their physical activity and track their food consumption. The application helps users achieve their health and fitness goals by providing detailed insights into their daily caloric intake and macronutrient distribution (proteins, fats, and carbohydrates). 
 
-Users will be able to:
+Users are able to:
 
 - Log their daily food consumption, with options to input the name of the food item, calorie count, and macro breakdown.
 - Track physical activities and calculate calories burned based on various exercises.
-- Set personalized health and fitness goals, allowing the app to provide tailored recommendations and feedback.
+- Set personalized health and fitness goals.
 
 Under [Milestone 1 Documentation](/documentation/milestone1/milestone1.md) the project logic is explained.
 
@@ -50,7 +50,7 @@ For detailed descriptions of the methods and configurations employed, refer to t
 Milestone 4 focused on further containerizing the application, deploying it as a cluster, and automating its build and deployment processes. The key aspects of this milestone include:
 
 - The `Dockerfile` was improved for the application container, including all dependencies required for the application to run the container image.
-- The `docker-compose.yml` file was alterd to manage a cluster of containers, including the application container, the PostgreSQL database container, and the Fluentd container for logging.
+- The `docker-compose.yml` file was alterd to manage a cluster of containers, including the application container, the PostgreSQL database container, and the `fluent` container for logging.
 - The repository is configured to automatically build and deploy the container whenever updates are pushed to GitHub. This process is managed through GitHub Actions.
 - Test were added to ensure that the Docker Compose cluster is correctly built and all containers are running in a healthy state. This test is automated and runs as part of the GitHub Actions pipeline.
 
@@ -59,11 +59,11 @@ For detailed descriptions of the methods and configurations employed, refer to t
 
 ## :pencil2: Milestone 5: Deployment on a PaaS
 
-Milestone 5 focused on deploying the NutriNube application to the cloud using Render.com, a PaaS chosen for its easy GitHub integration and free service. Key aspects of milestone include:
+Milestone 5 focused on deploying the NutriNube application to the cloud using [Render](https://render.com), a PaaS chosen for its easy GitHub integration and free service. Key aspects of milestone include:
 
 - Automatic deployment upon each commit via Render's automatic deployment.
 - Minor configuration adjustments to fit deployment requirements.
 - Ensuring application functionality in the cloud.
-- Performance testing remains a future task.
+- Performance testing using `Google Lighthouse`.
 
-For detailed explanations, see the [Milestone 5 Documentation](/documentation/milestone5/milestone5.md)..
+For detailed explanations, see the [Milestone 5 Documentation](/documentation/milestone5/milestone5.md).

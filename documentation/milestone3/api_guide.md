@@ -25,14 +25,14 @@ This documentation provides an overview of the API endpoints available in the Nu
 
 ---
 
-## Protected Routes (requires authentication)
-
 4. Home
    - Endpoint: `/`
    - Method: `GET`
-   - Description: Renders the home dashboard. Requires user to be logged in.
+   - Description: Renders the home dashboard or forwards users to `/login`.
 
 ---
+
+## Protected Routes (requires authentication)
 
 5. Dashboard
    - Endpoint: `/dashboard`
